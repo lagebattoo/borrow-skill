@@ -34,6 +34,8 @@ or research constraint; distinguish absence of evidence from evidence of absence
 
 **Handoff:**
 
+- Read first: [applicable AGENTS.md and the actual plan/decision section; include
+  the relevant decisions directly if this plan is inline]
 - Fixed: [requirements, constraints, policies, and settled decisions]
 - Preferred: [replaceable recommendations]
 - Revalidate: [current API/compatibility, maintenance, material filters, local code, focused integration]

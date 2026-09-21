@@ -29,7 +29,8 @@ Do not retain unsuitable existing systems solely because they already exist.
 Respect explicit requirements and technology constraints. Do not install or
 introduce dependencies merely because they might be useful later.
 
-During implementation, use search-first when available or perform equivalent
+Before implementation, read this policy and the current project plan or decision
+section. Use search-first when available or perform equivalent
 local verification directly: check current project implementations, candidate
 maintenance, API/compatibility, license/security evidence, and relevant integration
 behavior. State new evidence before revising settled design decisions; surface

@@ -60,6 +60,11 @@ optional; replace illustrative fields and remove irrelevant sections.
 
 ## Handoff to implementation
 
+Identify the applicable AGENTS.md and the current plan or decision section, using
+actual project paths when files exist. The next agent should read those sources
+before revalidation; mentioning another Skill does not invoke it or transfer this
+conversation. For an inline plan, include the relevant decisions in the handoff.
+
 Tell the implementing agent:
 
 - What is fixed: requirements, user constraints, policies, and settled decisions.
@@ -75,6 +80,18 @@ these checks directly to the implementing agent; do not claim that search-first
 ran or require its installation. Early discovery is not permanent fact. Keep
 “documentation checked”, “integration tested”, and “still unverified” distinct.
 
+The receiving workflow may use different labels: Extend/Wrap or Compose can map
+to ADAPT when the adaptation and ownership costs are justified. They do not change
+the resolved budget or decision strength. Replacing a PREFERENCE needs evidence;
+revising a DECISION needs an explicit rationale. If new evidence conflicts with a
+user-controlled POLICY or requirement, describe the conflict and leave that choice
+OPEN for the user instead of silently relaxing the constraint. Continue unaffected
+work. Record revised candidates and evidence in the plan, not durable policy.
+
 Borrow's handoff does not authorize implementing the product, installing packages,
 forking repositories, purchasing services, or deployment. Those actions follow
 the user's actual task and the target project's authorization rules.
+
+For a concrete file-based handoff with or without another Skill, see the
+[worked example](handoff-example.md). It is illustrative, not an extra required
+document or a promise of automatic Skill chaining.

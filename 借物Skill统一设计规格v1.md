@@ -1769,7 +1769,7 @@ Risks / Assumptions / Open Questions
 
 > Plan what to adopt, adapt, or build before coding, and capture lasting reuse policies in AGENTS.md.
 
-GitHub 仓库：[lagebattoo/borrow-skill](https://github.com/lagebattoo/borrow-skill)，本地项目已关联该仓库。当前版本为 `v0.1.0` 早期版本，用户已选择 MIT 许可证并授权公开；发布内容与验证范围见 [README](./README.md) 和 [发布说明](./releases/v0.1.0.md)。
+GitHub 仓库：[lagebattoo/borrow-skill](https://github.com/lagebattoo/borrow-skill)，本地项目已关联该仓库。首次发布版本为 `v0.1.0` 早期版本，用户已选择 MIT 许可证并授权公开；首次发布内容见 [v0.1.0 说明](./releases/v0.1.0.md)，当前版本见 [README](./README.md) 和下方后续记录。
 
 ## B. 文档关系与当前状态
 
@@ -1841,3 +1841,9 @@ borrow/
 已在临时项目中运行实际 Agent 案例：8 个离线场景、9 次独立 Codex CLI 调用通过，覆盖小修改不误触发、简单功能不堆积依赖、核心差异保持项目掌控、复用预算不放宽硬性筛选、离线不确定性及政策重复写入。结果来自工具读入记录、最终响应和实际文件产物；详见 [验证报告](./tests/evals/REPORT.md)。
 
 本轮未发现需要修改 Skill 的问题，规则保持不变。测试仅在临时项目加载 Skill，尚未安装到日常环境，也未覆盖实时外部来源搜索、真实依赖集成或所有未来触发请求。
+
+## F. v0.1.1 发布记录（2026-09-21）
+
+前述初稿结构及验收记录保留历史语境。v0.1.1 补充通用交接规则与示例、Windows 评测运行修复，以及三个决策边界和无配套 Skill 的跨会话交接验证；新增四个场景、五次独立调用与四项执行器回归检查通过。固定版本 ECC search-first 的历史样本另行归档，不视为本版全量复测。用户已授权上传和发布此轮完善，并优化仓库介绍。
+
+当前发布说明见 [v0.1.1](./releases/v0.1.1.md)，分批证据和限制见 [评测入口](./tests/evals/README.md)。Skill 仍处于方案设计阶段；真实项目和实时外部选型尚未验证。原始规格正文未改动。

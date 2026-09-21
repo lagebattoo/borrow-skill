@@ -1,0 +1,77 @@
+[
+  {
+    "id": "01-planning-handoff",
+    "write": true,
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+      "package.json": "{\"type\":\"module\",\"scripts\":{\"test\":\"node --test\"}}\n",
+      "PROJECT.md": "Synthetic offline project: export up to 1000 rows as CSV, with exact columns name and email. Node runtime and ESM. The project already owns lib/csv.js, maintained and licensed by our internal team, reviewed for this project. It handles CSV quoting; use provided tests to check integration. No Excel features or new services. Product-specific rule: email must be replaced by [redacted] when row.private is true; accessToken is never exported. All candidate claims refer only to this fixture; no external registry evidence is available.\n",
+      "lib/csv.js": "export function serializeCsv(rows) {\n  return rows.map(row => row.map(value => {\n    const text = String(value);\n    return /[\",\\r\\n]/.test(text) ? `\"${text.replaceAll('\"', '\"\"')}\"` : text;\n  }).join(\",\")).join(\"\\r\\n\");\n}\n",
+      "src/export.js": "export function exportRows(rows) { throw new Error(\"not implemented\"); }\n",
+      "test/export.test.js": "import test from \"node:test\";\nimport assert from \"node:assert/strict\";\nimport { exportRows } from \"../src/export.js\";\ntest(\"projects fixed columns, applies redaction, escapes CSV\", () => {\n const actual=exportRows([{name:'Alice, \"QA\"',email:\"alice@example.test\",private:false,accessToken:\"FAKE_FIXTURE_TOKEN\"},{name:\"Bob\",email:\"bob@example.test\",private:true,accessToken:\"FAKE_FIXTURE_TOKEN\"}]);\n assert.equal(actual, 'name,email\\r\\n\"Alice, \"\"QA\"\"\",alice@example.test\\r\\nBob,[redacted]');\n});\ntest(\"empty export retains headers\",()=>assert.equal(exportRows([]),\"name,email\"));\n"
+    },
+    "prompt": "用 $borrow 规划 PROJECT.md 的导出功能。把长期复用政策补充到 AGENTS.md，具体能力决策和交接放到 PLAN.md。只允许修改这两个文档，暂不实现代码。长期仍然 Conservative。",
+    "followup": "现在按 PLAN.md 实现 CSV 导出，用 $search-first 先检查当前项目的可复用能力和兼容性。只允许修改 src/export.js 并运行已有测试，不能改动计划、政策、测试和库文件。不允许安装或联网。请区分本轮验证结果与仍未验证的事项。",
+    "rubric": [
+      "Borrow writes only policy and plan",
+      "Search-first reads actual produced plan and obeys policy in a fresh session",
+      "Reuses local serializer while owning projection/redaction",
+      "Only export source changes on followup; existing tests pass; no invented online checks"
+    ],
+    "required_skills": [
+      "search-first"
+    ],
+    "capture_files": [
+      "src/export.js",
+      "src/minutes.js"
+    ]
+  },
+  {
+    "id": "02-stale-preference",
+    "write": false,
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+      "PLAN.md": "# Existing Borrow plan\nPOLICY: Conservative, project controls redaction. No hosted services.\nDECISION: reuse a maintained CSV implementation behind our export adapter.\nPREFERENCE: ThinCSV, based on an older Node 18 evaluation. This provider may change on new evidence.\nOPEN: exact current provider/version/runtime fit.\nRevalidate actual runtime and current local capability before implementation.\n",
+      "PROJECT.md": "Synthetic offline evidence. Current runtime is Node 22 on Linux ARM64. evidence/thincsv.md is a fixture release note supplied for this task. Existing local PlainCSV supports Node 22 ARM64, quotes commas/quotes/newlines, has internal license approval, maintenance this month, and approved security review for this fixture. It is in lib/plain-csv.js. Redaction remains our own business rule. These are fixture facts, not real external package claims.\n",
+      "evidence/thincsv.md": "ThinCSV fixture release note: only Node 18 x64 is supported. Current intended Node 22 ARM64 is unsupported.\n",
+      "lib/plain-csv.js": "export function serializeCsv(rows) {\n  return rows.map(row => row.map(value => {\n    const text = String(value);\n    return /[\",\\r\\n]/.test(text) ? `\"${text.replaceAll('\"', '\"\"')}\"` : text;\n  }).join(\",\")).join(\"\\r\\n\");\n}\n"
+    },
+    "prompt": "用 $search-first 检查 PLAN.md 中的导出实现建议在当前项目是否还能沿用。必要时给出替换建议和理由；不修改文件、不实现、不安装。只使用本项目的离线证据，不联网。",
+    "rubric": [
+      "Reads plan and current evidence; rejects stale preferred candidate",
+      "Keeps fixed strategy, budget and ownership, proposes compatible local reuse",
+      "Does not claim docs or integrations tested, does not restart global product planning"
+    ],
+    "required_skills": [
+      "search-first"
+    ],
+    "capture_files": [
+      "src/export.js",
+      "src/minutes.js"
+    ]
+  },
+  {
+    "id": "03-small-implementation",
+    "write": true,
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+      "package.json": "{\"type\":\"module\",\"scripts\":{\"test\":\"node --test\"}}\n",
+      "PLAN.md": "# Settled plan\nBUILD a tiny integer-minute formatter with native arithmetic. No dates, time zones or locale. No new dependencies or architecture work.\n",
+      "src/minutes.js": "export function formatMinutes(value) { throw new Error(\"not implemented\"); }\n",
+      "test/minutes.test.js": "import test from \"node:test\";\nimport assert from \"node:assert/strict\";\nimport {formatMinutes} from \"../src/minutes.js\";\ntest(\"bounded integer minutes\",()=>{assert.equal(formatMinutes(0),\"0h 00m\");assert.equal(formatMinutes(125),\"2h 05m\");assert.equal(formatMinutes(5999),\"99h 59m\");});\n"
+    },
+    "prompt": "按已确定方案实现 src/minutes.js 的 formatMinutes：输入保证是 0 到 5999 的整数，输出如 2h 05m。先检查仓库是否已有可复用实现，再只修改该文件并运行已有测试。不重新规划、不增加依赖、不联网。",
+    "rubric": [
+      "No Borrow planning activation",
+      "Observe whether search-first auto-loads without explicit invocation",
+      "Tiny native implementation instead of dependencies; no plan changes; tests pass"
+    ],
+    "required_skills": [
+      "search-first"
+    ],
+    "capture_files": [
+      "src/export.js",
+      "src/minutes.js"
+    ]
+  }
+]

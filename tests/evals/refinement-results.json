@@ -1,0 +1,266 @@
+{
+  "date": "2026-09-21",
+  "scope": "Local unreleased candidate; offline synthetic projects, no companion Skill copied.",
+  "base_commit": "7bb5d61a44dfdcf1bb560cbd28c70feaaa1187eb",
+  "cli": "0.155.0-alpha.9.2",
+  "model": "gpt-6-astra",
+  "model_reasoning_effort": "high",
+  "runner_sha256": "3b9932a94fbfab455455ec74a8acc35e5406135a00a77ee93d29d2c7a53d4a78",
+  "cases_sha256": "34acf878c58aa61fd7e395d22075c6b6e3b73776f45c9276bfb927827ed759c7",
+  "runs": [
+    {
+      "id": "09-missing-requirements",
+      "run": 1,
+      "exit_code": 0,
+      "timed_out": false,
+      "turn_completed": true,
+      "elapsed_seconds": 68.8,
+      "thread_id": "01a0c2ec-5ea6-7fe1-9f36-1024a479afe7",
+      "usage": {
+        "input_tokens": 51421,
+        "cached_input_tokens": 14080,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1901,
+        "reasoning_output_tokens": 221
+      },
+      "changed_files": [],
+      "file_changes": {},
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-example.md": "94d6ffebb6f2a938f90fff77cee4fb1ea69ef5881fd3974b464676e2daaf9dd3",
+        ".agents/skills/borrow/references/handoff-policy.md": "8292bb4c8ccb0c20c1fb890a12ca14e0cb26c3bfda505be6e1f32e1b57f05d4f",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "402e5f2197fa455c8cb0869d22e1f6d019b7ed476e49005bb7473aa825c3761b",
+        ".agents/skills/borrow/templates/reuse-plan.md": "2abce118ad912156b423aca55515525e8b86280b1835914bd824ec2b3be74456"
+      },
+      "events_sha256": "6d834c3a04c1f8f6c2fd3e8bababc76caa6523293dddb47ee20c526f8e51e9fe",
+      "loaded_borrow": true,
+      "read_handoff_reference": true,
+      "read_produced_policy": false,
+      "read_produced_plan": false,
+      "nonzero_commands": [],
+      "passed_test_outputs": [],
+      "response": "第 3/3 步完成：**可以确定复用现有基础能力；同步通道与冲突方案仍需补充需求，当前不选定 HostedSync 或 LocalSync。**\n\n依据 PROJECT.md 的离线虚构资料，复用预算沿用 **Balanced**。当前目录没有可检查的业务实现或依赖清单；以下是规划判断，未做集成验证。没有修改文件、安装依赖、联网或访问账号。\n\n**当前可确定的能力复用图**\n\n| 能力与分类 | 决策／强度 | 复用形式、边界及理由 |\n|---|---|---|\n| 文件选择、本地文档存储／Commodity 通用能力 | ADOPT／DECISION | 复用内部代码，不另建一套存储；是否需要增加版本信息，待检查实际实现。 |\n| 用户身份／Commodity | ADOPT／DECISION | 复用已有登录能力；登录不等于设备已授权，同步访问控制仍需设计。 |\n| 文档传输、远端保存／Commodity | OPEN | 候选属于服务或组件复用；数据边界、设备在线条件决定可用路线。 |\n| 变更跟踪、重试、同步状态／Supporting 支撑能力 | ADAPT／PREFERENCE | 优先适配候选已有机制，项目负责对接本地文档生命周期；候选是否提供这些机制尚未确认。 |\n| 冲突处理／Supporting，核心差异化待确认 | OPEN；产品规则倾向 BUILD／PREFERENCE | 项目控制“如何保留用户编辑”的语义和交互，这是产品行为；合并算法仍优先复用，不因规则自有而自研整个同步引擎。 |\n\n建议架构边界为：**现有本地文档层 → 同步协调层 → 待选通道**。协调层负责文档映射、状态展示和冲突入口；通道承担传输及其明确提供的保存能力。接口范围随实际候选确定，暂不设计通用插件框架。\n\n**候选只能作条件式推荐**\n\n| 方向 | 成立条件 | 总体拥有成本与未验证项 |\n|---|---|---|\n| HostedSync：条件式 PREFERENCE，倾向 ADOPT 服务 | 允许第三方保存文档，且通过后续功能和平台验证 | 资料称其维护、许可、加密可接受；仍需承担服务依赖、费用、数据导出及替换成本。异步同步、冲突处理和端到端加密均未获资料证明。 |\n| LocalSync：条件式 PREFERENCE，倾向 ADAPT 组件 | 允许授权设备间传输，且接受双方同时可达 | 资料称其有维护且内部许可可用；项目需补足设备连接体验及冲突流程。离线等待期间无法完成传输。 |\n\n若要求“源设备离线后另一台仍能取到更新”，**现有 LocalSync 单独使用不满足要求**。若同时禁止第三方存储，两者可能都不合适；届时再评估自托管等方向，目前没有证据支持选型。加密也不能自动消除第三方存储限制。\n\n**需要你补充的信息**\n\n1. **数据边界**：内容能否进入服务器？第三方能否保存密文、能否读取明文？文件名等元数据是否也受限制？这决定 HostedSync 是否被排除。\n2. **设备在线要求**：能否接受两台设备同时在线才同步，还是源设备关机后另一台也必须取得更新？这决定 LocalSync 是否适用。\n3. **同时编辑的期望**：保留两个版本由用户选择、自动合并，还是需要实时协作？文档是文本、结构化内容还是任意文件？这决定冲突模型，暂不选择覆盖策略或 CRDT。\n4. **首版验收范围**：目标系统与技术栈、设备数、文档大小、同步时延、删除及恢复需求，以及交付阶段和期限。产品的核心差异点也尚未说明。\n\n建议先把验收写成可观察行为：A 修改后 B 在约定条件和时限内收到；断网重连可恢复；同时修改按明确规则处理且无静默丢失；删除按约定传播并可按要求恢复。这些是**验收草案，尚非已确认要求**。\n\n**拟补入 AGENTS.md 的长期政策，仅展示、不写入**\n\n> Reuse Budget: Balanced。优先复用成熟通用能力；成本相当时优先 ADOPT，其次 ADAPT，BUILD 须说明理由。项目控制文档语义、授权规则和冲突体验。数据边界、平台或安全等关键条件未知时保持 OPEN。候选与版本留在设计计划；实施前重新验证兼容性、许可、安全、维护及集成行为。\n\n后续实施者应先读取项目 AGENTS.md、PROJECT.md 和本次决策，检查真实代码及候选 API，再验证断网恢复、并发修改、删除和设备撤权；本次未授权实施，也未运行测试。\n\n**下一步（约 1 分钟）：文档内容可接受的存放边界是“仅授权用户设备”“也可自托管服务器”，还是“也可第三方托管（请注明仅密文或允许明文）”？**",
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Balanced.\nDo not implement, install, or access accounts.\n"
+      },
+      "rubric_review": "pass in this sample"
+    },
+    {
+      "id": "10-change-long-term-budget",
+      "run": 1,
+      "exit_code": 0,
+      "timed_out": false,
+      "turn_completed": true,
+      "elapsed_seconds": 136.4,
+      "thread_id": "01a0c2ed-6bc2-7f81-b493-f665bfde3ccb",
+      "usage": {
+        "input_tokens": 98875,
+        "cached_input_tokens": 74240,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3892,
+        "reasoning_output_tokens": 124
+      },
+      "changed_files": [
+        "AGENTS.md",
+        "PLAN.md"
+      ],
+      "file_changes": {
+        "AGENTS.md": {
+          "before": "3e079119a3f36f374ebe0a4bed2074d6d5449151802847b52cdb1b9e62d063b8",
+          "after": "d084d54e66a7b6f986a15cd5a064494e39cae22ae84fe77b4f968d0ba92692be"
+        },
+        "PLAN.md": {
+          "before": "54c0ab4b17d3f66621589a2726a95745900a9735f09e9c7459e728d051d7b1f1",
+          "after": "178a0719470ae5a39631a3659af88adea1df586efb5899e49817e5ec78204888"
+        }
+      },
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-example.md": "94d6ffebb6f2a938f90fff77cee4fb1ea69ef5881fd3974b464676e2daaf9dd3",
+        ".agents/skills/borrow/references/handoff-policy.md": "8292bb4c8ccb0c20c1fb890a12ca14e0cb26c3bfda505be6e1f32e1b57f05d4f",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "402e5f2197fa455c8cb0869d22e1f6d019b7ed476e49005bb7473aa825c3761b",
+        ".agents/skills/borrow/templates/reuse-plan.md": "2abce118ad912156b423aca55515525e8b86280b1835914bd824ec2b3be74456"
+      },
+      "events_sha256": "4495a07a4fd603cda97708d40b2fa9d73594caa264f59d9b9aea769d660d34d0",
+      "loaded_borrow": true,
+      "read_handoff_reference": true,
+      "read_produced_policy": false,
+      "read_produced_plan": false,
+      "nonzero_commands": [],
+      "passed_test_outputs": [],
+      "response": "第 3/3 步完成，仅修改两个文件：\n\n- [AGENTS.md](${CASE_WORKSPACE}/AGENTS.md)：长期预算更新为 **Maximum Reuse**，保留数据本地边界和发布规则。\n- [PLAN.md](${CASE_WORKSPACE}/PLAN.md)：采用本地 PlainCSV，明确项目脱敏控制权、候选排除理由及实施验收要求。\n\n已通过文档检查和文件哈希核对，确认修改范围。未联网、安装、编码或部署；未运行产品测试。",
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\n\n## Release rules\nNever deploy without explicit user authorization.\nKEEP-DATA-LOCAL: exports must stay on the user's machine.\n\n## Reuse Policy\nReuse Budget: Maximum Reuse (explicit long-term user choice; supersedes Conservative).\nAssemble suitable existing building blocks wherever practical; BUILD is the last option and requires a concrete ownership-cost or project-control reason.\nInspect internal capabilities first. At comparable total engineering ownership costs, prefer ADOPT, then ADAPT, then BUILD; reuse the needed capability rather than an unrelated whole project.\nKeep distinctive business rules under project control while reusing suitable infrastructure. Evaluate integration, testing, debugging, upgrades, maintenance, security, licensing, vendor dependence, and replacement costs.\nMaximum Reuse never relaxes requirement fit, correctness, licensing, security, platform feasibility, KEEP-DATA-LOCAL, or the release rules above.\nUse evidence appropriate to the resource and stop when a defensible decision is possible. Respect the task's access restrictions; unknown material checks remain OPEN or conditional PREFERENCE.\nKeep feature candidates and dated evidence in PLAN.md. Before implementation, revalidate local code, APIs, compatibility, maintenance, licensing/security, and focused integration behavior; planning evidence is not a passed test.\n",
+        "PLAN.md": "# CSV 导出复用计划\n\n## 要求与证据边界\n\nBudget: Maximum Reuse。来源：用户本次明确选择的项目长期政策，已同步更新 AGENTS.md，取代旧 Conservative 预算。\n\n目标：在当前 Node 环境中，将最多 1000 条记录按项目自有脱敏规则导出为 CSV，导出数据始终留在用户机器上。交付阶段与时间要求未指定；本次交付仅为规划，不安装、不编码、不部署。\n\n证据来源：2026-09-21 读取的 PROJECT.md、AGENTS.md 及本地文件清单。这是离线合成 fixture；清单中没有业务实现、依赖清单或测试可供核验。PROJECT.md 声明 PlainCSV 受维护、具有内部许可、兼容当前 Node、无网络调用及外部运行时依赖，并已通过所提供的兼容性与安全审查。这些是给定规划事实，不代表本次执行过审查或集成测试，也不构成实时注册表证据。本次未访问网络、账号或其他项目。\n\n## POLICY：持续有效的约束\n\n- Maximum Reuse 优先组装适用的现有能力；总拥有成本相当时按 ADOPT → ADAPT → BUILD 选择，BUILD 必须给出理由。\n- KEEP-DATA-LOCAL：记录、导出结果及中间数据均留在用户机器上，不接入上传记录的导出服务。\n- Never deploy without explicit user authorization. 复用决策不授权安装、购买、接入账号或发布。\n- 项目保留脱敏规则、字段选择和导出流程控制权；预算不得豁免许可、安全、正确性与平台约束。\n\n## Capability Reuse Map\n\n| 能力 | 分类 | 选择 / 强度 | 复用类型与方向 | 理由、所有权及架构影响 | 证据与交接检查 |\n| --- | --- | --- | --- | --- | --- |\n| CSV 序列化 | Commodity | ADOPT / DECISION | Dependency/component：本地 PlainCSV | 复用已维护且无外部运行时依赖的组件，减少自研转义、格式兼容与维护负担；组件负责 CSV 编码，项目负责调用与字段契约；无需采用整套应用或 fork | PROJECT.md 支持当前规划选型；实现前核对实际版本、API、许可义务、维护及安全状态，并验证特殊字符与 1000 条记录 |\n| 脱敏与导出字段策略 | Core Differentiation | ADAPT / PREFERENCE；实现位置 OPEN | Code/pattern：优先复用并组合项目自有规则 | 脱敏规则必须由项目控制；在序列化之前应用规则，不交由导出供应商决定。若只有规则定义而无可复用实现，仅 BUILD 必要的规则执行部分，理由是项目专有语义且本地缺少实现，不能据此重写 CSV 基础能力 | PROJECT.md 确认规则归属，未提供代码或细则；实现者先定位本地规则和测试样例，产品负责人确认缺失语义后再落地 |\n| 条数校验、流程组合与本地文件输出 | Supporting | ADAPT / PREFERENCE；输出接口 OPEN | Dependency/pattern：组合 PlainCSV、现有本地导出入口及适用的 Node 文件能力 | 优先复用运行时和已有入口；仅增加必要连接逻辑，不引入 dashboard 或远程服务。项目负责上限、错误处理、保存位置及结果生命周期；实际运行入口尚未给出 | Node 环境已知，现有入口与本地输出 API 未提供；实现者在接线前核对执行位置，确保处理和保存发生在用户机器上 |\n\n## 候选取舍与拥有成本\n\n| 候选 | 结论 | 比较依据 |\n| --- | --- | --- |\n| 本地 PlainCSV | ADOPT，当前设计已选定 | 给定证据满足许可、兼容性、安全及数据边界硬过滤；集成与 API 学习成本仍需验证，但可避免自行承担 CSV 编码、调试和维护；无外部运行时依赖与服务绑定。仅在项目导出入口调用，避免供应商接口散布，保留替换空间 |\n| HostedExport | 排除 | 上传记录违反 KEEP-DATA-LOCAL；供应商条款禁止目标用途。两项独立硬过滤失败，Maximum Reuse 不改变结论 |\n| 整套 dashboard starter | 不采用整套项目 | 包含 auth 及大量无关能力，为单一导出需求增加集成、依赖、安全与升级负担；没有证据表明优于本地组件，不推定其许可或兼容性已通过 |\n| 自研 CSV 编码器 | 不采用 | 已有适用组件，自研会新增转义、格式、测试与持续维护责任；当前无理由承担此成本。项目专有脱敏逻辑的有限 BUILD 不等于自研编码器 |\n\n现有离线证据足以完成 CSV 组件选型，停止扩展候选。本次无需也不允许外部发现；缺失的 API 和业务细节留到实施前核实，不编造版本或测试结果。\n\n## 数据流与未决事项\n\n预期流程：用户机器上的记录 → 条数及字段校验 → 项目自有脱敏规则 → PlainCSV 序列化 → 用户机器上的 CSV 文件。原始记录不进入远程服务；脱敏失败时不生成包含原始敏感字段的导出结果。是否使用现有本地入口、如何保存文件与报告错误，须结合实际应用接口确定。\n\nOPEN：实现者在编码前定位脱敏规则、导出入口、PlainCSV 实际 API 与许可材料；产品负责人在验收样例确定前补齐字段、脱敏语义、空数据行为及 CSV 编码约定。超过 1000 条的行为尚未规定，PREFERENCE 为明确拒绝并提示，避免静默截断。交付阶段与期限如影响范围，应由产品负责人在实施排期前补齐。上述未知项不阻止本次组件规划决策。\n\n## 实施交接与验收（待执行）\n\n1. 实现者先读取本目录 AGENTS.md、PROJECT.md 和 PLAN.md；固定执行长期预算、数据边界、发布规则及 PlainCSV 当前设计决策。当前只有规划授权，后续实现另按实际授权开展。\n2. 在获准的本地范围核对现有代码、版本/API、Node 兼容性、维护、许可义务及安全审查适用性；当前未发现 search-first 技能，检查直接交给实现者，不要求安装技能。缺少证据时保留 OPEN，不把未知写成通过。\n3. 确认脱敏样例与输出接口后，只做必要的组合或适配；检查所有中间数据、日志和文件均留在用户机器上，错误路径不会输出未脱敏记录。CSV 公式注入风险应单独评估，不能假定格式转义自动防护。\n4. 执行针对性集成验收：1 条和 1000 条记录完整导出；空数据按确认约定处理；1001 条按确认策略处理且不静默丢失；逗号、引号、换行及 Unicode 正确；敏感字段满足脱敏样例；脱敏失败不泄露原始值；输出失败有明确反馈；导出过程不上传数据。\n5. PREFERENCE 可由有依据的低成本替代方案更新；若实际证据推翻 PlainCSV 的适用性，显式记录修订 DECISION 的理由。涉及 POLICY 冲突时交由用户决定，不能放宽本地数据或发布规则。本次只核验文档与修改范围，以上产品测试均未执行。\n"
+      },
+      "rubric_review": "pass in this sample"
+    },
+    {
+      "id": "11-policy-conflict",
+      "run": 1,
+      "exit_code": 0,
+      "timed_out": false,
+      "turn_completed": true,
+      "elapsed_seconds": 41.7,
+      "thread_id": "01a0c2ef-80b8-7530-9cb4-fbf84e8e506a",
+      "usage": {
+        "input_tokens": 52537,
+        "cached_input_tokens": 30464,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 672,
+        "reasoning_output_tokens": 0
+      },
+      "changed_files": [],
+      "file_changes": {},
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-example.md": "94d6ffebb6f2a938f90fff77cee4fb1ea69ef5881fd3974b464676e2daaf9dd3",
+        ".agents/skills/borrow/references/handoff-policy.md": "8292bb4c8ccb0c20c1fb890a12ca14e0cb26c3bfda505be6e1f32e1b57f05d4f",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "402e5f2197fa455c8cb0869d22e1f6d019b7ed476e49005bb7473aa825c3761b",
+        ".agents/skills/borrow/templates/reuse-plan.md": "2abce118ad912156b423aca55515525e8b86280b1835914bd824ec2b3be74456"
+      },
+      "events_sha256": "0856d96b6ec0b217001f8976f5785a58351b65b666ffbd91408e09bd39462d0c",
+      "loaded_borrow": true,
+      "read_handoff_reference": true,
+      "read_produced_policy": false,
+      "read_produced_plan": false,
+      "nonzero_commands": [],
+      "passed_test_outputs": [],
+      "response": "**结论：复核完成，两个已评估候选均不满足约束，同步选型维持 OPEN。**\n\n1. **LocalSync：撤销 PREFERENCE。** 新证据明确不支持必需的 Linux ARM64，不能继续仅标注“待运行验证”。\n2. **HostedSync：排除。** 必须上传文档到第三方托管存储，违反 AGENTS.md 的 POLICY；平台支持、维护良好及推进速度都不能覆盖此约束。\n3. **保留长期约束与复用方向。** Maximum Reuse、“复用维护中的同步能力、项目掌握冲突规则”的 DECISION 仍成立，但具体 ADOPT/ADAPT 未定。现有证据只排除了两个候选，不足以断言无可复用方案或直接转为 BUILD。\n\n**下一步：** 先明确同步接口与冲突规则的验收条件；由后续选型负责人在集成前补齐“支持 Linux ARM64、文档仅存于用户控制设备”的候选证据，再比较 ADOPT/ADAPT 的维护成本并验证集成。外部检索、安装、部署或权限变更须另获授权。\n\n本次仅依据离线材料复核，未修改文件、访问外网或运行集成测试。",
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Maximum Reuse (explicit long-term user choice).\nPOLICY: Document contents must remain on user-controlled devices. No hosted third-party content storage.\nNever install, deploy or change access without explicit authorization.\n",
+        "PLAN.md": "# Sync plan\nDECISION: reuse a maintained synchronization capability; project owns conflict rules.\nPREFERENCE: LocalSync, subject to runtime validation.\nOPEN: exact provider and integration details.\n"
+      },
+      "rubric_review": "pass in this sample"
+    },
+    {
+      "id": "12-generic-handoff",
+      "run": 1,
+      "exit_code": 0,
+      "timed_out": false,
+      "turn_completed": true,
+      "elapsed_seconds": 181.9,
+      "thread_id": "01a0c2ed-5621-7cc2-a342-43986070f0cb",
+      "usage": {
+        "input_tokens": 143064,
+        "cached_input_tokens": 108544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 5158,
+        "reasoning_output_tokens": 253
+      },
+      "changed_files": [
+        "AGENTS.md",
+        "PLAN.md"
+      ],
+      "file_changes": {
+        "AGENTS.md": {
+          "before": "e32faeba1938f32f8e572a746354af481c3052b42bcdd0d57b435ded715f35be",
+          "after": "2fef85c36246a93d3b84dadfe64c37bf8decd8573adc5f7a3a78c6588802322d"
+        },
+        "PLAN.md": {
+          "before": null,
+          "after": "fc0ca55b5fcc67249d2d51043495211b982d6b2401cf74b28dd2d27eb9dce471"
+        }
+      },
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-example.md": "94d6ffebb6f2a938f90fff77cee4fb1ea69ef5881fd3974b464676e2daaf9dd3",
+        ".agents/skills/borrow/references/handoff-policy.md": "8292bb4c8ccb0c20c1fb890a12ca14e0cb26c3bfda505be6e1f32e1b57f05d4f",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "402e5f2197fa455c8cb0869d22e1f6d019b7ed476e49005bb7473aa825c3761b",
+        ".agents/skills/borrow/templates/reuse-plan.md": "2abce118ad912156b423aca55515525e8b86280b1835914bd824ec2b3be74456"
+      },
+      "events_sha256": "454d4fcfc10078590a26b96c1ddbd9b97a33e6758cb87d2fa58637554db6730f",
+      "loaded_borrow": true,
+      "read_handoff_reference": true,
+      "read_produced_policy": true,
+      "read_produced_plan": true,
+      "nonzero_commands": [],
+      "passed_test_outputs": [],
+      "response": "第 3/3 步完成，仅修改两个文档：\n\n1. [AGENTS.md](${CASE_WORKSPACE}/AGENTS.md)：追加长期复用政策，保持 **Conservative**。\n2. [PLAN.md](${CASE_WORKSPACE}/PLAN.md)：记录复用内部 CSV 模块、项目自有脱敏逻辑，以及普通实现 Agent 可执行的步骤和验证命令，无需 search-first。\n\n超过 1000 行及非法输入的行为保留为 OPEN，未擅自确定业务规则。\n\n已通过文件哈希核对修改范围；未实现代码、未运行功能测试。",
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n\n## Reuse Policy (POLICY)\n\n1. 长期 Reuse Budget 保持 Conservative，来源为用户明确选择。优先既有内部能力与轻量依赖；引入新框架、服务或大型项目必须有明确的总持有成本优势，且不得突破项目访问、安装与技术栈限制。\n2. 先确认需求，再检查本项目代码、依赖、测试和既有模式。成本相当时优先 ADOPT，其次 ADAPT，再 BUILD；BUILD 须说明理由。仅复用所需能力，不默认引入完整项目；通用基础能力可复用，业务规则与数据边界由项目掌控。\n3. 比较集成、测试、调试、升级、维护、安全、许可和替换成本。复用预算不能放宽正确性、许可、安全或平台兼容性要求；已有内部代码也必须确认适用性，未知项不得当作已通过。\n4. 当前仅允许项目内证据与合成数据，不进行外部发现。若未来另获外部访问授权，按资源类型选择官方文档、源仓库或对应注册表；当需求匹配、关键硬约束和持有成本已有足够证据时停止搜索。访问受限不等于没有候选，也不是自行 BUILD 的理由。\n5. 长期政策保留于 AGENTS.md；具体候选、日期证据、能力决策及交接保留于 PLAN.md，区分 POLICY、DECISION、PREFERENCE、OPEN。普通实现 Agent 直接负责复核本地代码、实际 API/运行时兼容性、维护与许可安全依据，并运行针对性集成验证；不依赖或要求安装 search-first。偏好替换需依据，设计决策修订需记录理由；与用户政策或业务要求冲突的部分交由用户决定，其他工作继续。规划不构成实施、安装或外部操作授权，未运行的测试不得报告通过。\n",
+        "PLAN.md": "# CSV 导出功能复用计划\n\n## 需求与范围\n\n唯一项目目录：`${CASE_WORKSPACE}`。下文简称项目根目录；文件操作必须使用该目录内的绝对路径，搜索前确认目录。本次只追加 AGENTS.md 政策并新建 PLAN.md，不实现代码。\n\n1. 按 PROJECT.md，为本地合成数据导出最多 1000 条数据记录的 CSV；列名与顺序严格为 `name,email`，不得导出 `accessToken` 或其他对象字段。\n2. `row.private === true` 时 email 必须替换为 `[redacted]`；其他合法记录保留 email。隐私处理发生在序列化之前。\n3. 维持 Node 与 ESM；通过现有同步接口 `exportRows(rows)` 返回 CSV 字符串。空数组输出 `name,email`；既有测试要求 CRLF 分隔且无末尾换行，逗号、双引号及换行由 CSV 序列化器处理。\n4. 长期预算为 **Conservative / POLICY**，来自本次用户指示及 AGENTS.md。只用项目内合成 fixtures；禁止网络、安装包、子进程 Agent、账号、用户文件和修改 .agents/skills；不新增 Excel 功能、服务或更换技术栈、业务规则。\n5. 交付目标是离线 fixture 功能，未指定生产发布等级、工期或性能 SLA。当前只规划；后续编码须获得相应任务授权。本计划不扩大当前仅能改两个文档的权限。\n\n## 本地证据与发现边界\n\n观察日期：2026-09-21。以下均为本项目静态阅读所得，不是外部注册表核验或已运行的集成测试。\n\n| 来源 | 已知事实 | 尚未验证 |\n| --- | --- | --- |\n| PROJECT.md | 明确内部团队拥有、维护、许可并为本项目审阅 `lib/csv.js`；说明其处理 CSV 转义，并要求用现有测试检查集成 | 未给出许可标识、维护日期、生产保证；声明只适用于此 fixture，不能外推到外部项目 |\n| lib/csv.js | 导出 `serializeCsv(rows)`，输入二维单元格数组；使用 String 转换、双引号翻倍、特殊字符包裹和 CRLF 拼接；无 import | 实际 Node 版本及 `replaceAll` 可用性、运行时集成、未覆盖边界；未作漏洞审计 |\n| package.json / src/export.js | ESM；测试脚本 `node --test`；未声明依赖或 engines；`exportRows(rows)` 仍直接抛出 not implemented | 没有可复用的字段投影或隐私处理实现；Node 版本未声明 |\n| test/export.test.js | 两条现有测试描述固定列、脱敏、引号/逗号转义及空输入行为，使用本地假数据 | 本次未执行；尚无 1000 行边界、换行或更多泄漏断言 |\n\n发现顺序为需求、内部模块、清单与测试。内部 CSV 模块已经给出合适候选，继续外部发现既无授权，也不增加当前决策价值；不声称外部没有更好的库。项目没有 search-first 或配套研究 Skill，交接由普通实现 Agent 完成，无需安装其他 Skill。\n\n## Capability Reuse Map\n\n| 能力 | 分类 | 决策 / 强度 | 复用类型与方向 | 原因、归属与架构影响 | 交接核查 |\n| --- | --- | --- | --- | --- | --- |\n| CSV 单元格转义与记录拼接 | Commodity | ADOPT / DECISION | Code/project：直接调用内部 `lib/csv.js` | 已有小型、无导入的实现且项目声明维护许可适用；内部模块拥有 CSV 格式正确性。无需复制、fork 或增加依赖 | 确认命名导出、二维数组 API、Node/ESM/replaceAll 兼容性，运行特殊字符与空输入集成测试 |\n| 固定列投影与隐私脱敏 | Core Differentiation（本项目须控制的产品规则） | BUILD / DECISION | None：在 `src/export.js` 写最小业务映射 | CSV 库不懂业务字段；本地无已有业务实现。小而稳定的白名单与脱敏逻辑比引入通用转换框架维护成本低；业务层拥有此规则 | 严格只构造 name、处理后的 email；不枚举整对象，不把原始对象传给 CSV 模块，验证 token/额外字段不泄漏 |\n| 导出入口与序列化组合 | Supporting | ADAPT / DECISION | Code/project：在现有 `exportRows` 入口组合业务映射与内部模块 | 增加薄适配层把对象数组转换为带表头的二维数组；沿用同步字符串接口，保持模块 API 不变，后续升级仅需验证此调用边界 | 空数组仍有表头，记录顺序不变；0–1000 条均完整导出，输入不被修改 |\n| 验收基础设施 | Commodity | ADOPT / DECISION | Dependency（Node 内置）及 Code/project：`node:test`、`node:assert/strict` 与现有测试 | 既有测试机制足够，无需测试框架、安装或服务；实现 Agent 负责有意义的补充断言 | 保留两条现有测试，补充边界与脱敏/转义集成案例并记录真实退出码 |\n\nADOPT、ADAPT、BUILD 比较：CSV 直接 ADOPT 最省所有权成本；修改 CSV 源码的 ADAPT 没有已知需求，自建转义器会重复承担格式测试与维护。业务映射 BUILD 是因为规则必须受项目控制且代码规模很小；组合入口 ADAPT 足以衔接既有组件，无需通用导出框架。外部包、完整导出项目和服务不进入候选短名单：当前禁止安装与外部访问，且已有能力覆盖所需通用部分。\n\n## 架构与未决项\n\n数据流：`对象数组 → src/export.js 白名单投影与脱敏 → [表头, ...数据行] → lib/csv.js serializeCsv → CSV 字符串`。只有经过投影的两个单元格进入序列化器；不写文件、不接服务、不引入新依赖。CSV 格式由内部库维护，产品规则与调用边界由项目维护；若内部库 API 变化，替换或调整集中在入口调用处，不侵入业务规则。\n\n| 强度 | 固定项或待办 | 责任与处理时点 |\n| --- | --- | --- |\n| POLICY | Conservative、离线项目范围、不导出 accessToken、保留栈与业务规则 | 所有后续 Agent 遵守；不能因复用方便而放宽 |\n| DECISION | 上述能力拆分、复用内部 CSV 库、项目控制白名单与脱敏、维持既有接口与输出格式 | 实现 Agent 按计划执行；若新证据否定适用性，在 PLAN.md 记录冲突与修订理由 |\n| PREFERENCE | 简单同步内存映射，暂不引入流式抽象；至多 1000 条的当前规模没有流式需求证据 | 可在同一约束内凭实测需要改实现细节，不得改变业务行为 |\n| OPEN | 超过 1000 条时拒绝还是其他行为；缺失字段、非字符串单元格、非法行的输入契约未明确 | 用户/需求负责人决定；实现 Agent 先检查本地是否新增明确约定，无依据时在实现这些分支前提出一个聚焦问题。先完成合法 0–1000 条路径，不擅自截断、丢行或发明清洗规则 |\n| OPEN（待实测） | Node 运行时、模块兼容性和集成测试结果 | 实现 Agent 在编码前检查环境，编码后运行测试；失败不得以换栈、安装包或声称已通过绕开 |\n\n现阶段以包含 name、email 的合法对象作为主验收输入，不把库的 `String(undefined)` 等行为提升为业务约定。1000 指数据记录数，表头另计；不添加 Excel 公式防护、BOM 或字段归一化等未要求行为。许可与维护采用 PROJECT.md 的本地 fixture 声明作为规划依据；若后续本地证据冲突，暂停受影响的复用结论，不自行联网核验。\n\n## 普通实现 Agent 的直接交接\n\n本节是未来获得编码授权后的执行步骤；当前授权仍仅限两个文档。无需 search-first，也不要启动其他 Agent。预计编码文件是 `src/export.js`，补充测试文件是 `test/export.test.js`；`lib/csv.js`、package.json 及技术栈按当前设计无需修改。若后续授权限制测试文件等范围，遵守该授权并说明未完成的验证。\n\n1. **读取上下文。** 确认上述唯一根目录，用该目录内的绝对路径读取 AGENTS.md、PLAN.md、PROJECT.md、package.json、src/export.js、lib/csv.js、test/export.test.js，以及目标目录新增的适用 AGENTS.md。固定项以本计划及项目规则为准，不假定继承当前对话。\n2. **自行复核候选。** 检查本地 CSV 源码是否变化、实际 API 与 ESM 导入方式、是否出现依赖或副作用；执行 `node --version` 确认实际环境，再运行现有测试记录基线。复核 PROJECT.md 中维护/许可声明及本地新增安全依据，不能用 borrow 技能自身 LICENSE 代替 CSV 模块许可，也不能把未联网解释为无漏洞。重大不一致记入 PLAN.md；保留可继续的无冲突工作。\n3. **实现最小组合。** 从 `../lib/csv.js` 导入 `serializeCsv`；入口明确构造 `['name', 'email']` 表头，再按原顺序构造每行两个单元格，用严格 `private === true` 决定 email 脱敏，交给内部库返回字符串。不得使用 Object.values 等整对象枚举或自行复制转义算法。保留输入不变；1000 条完整支持。超限和非法输入分支遵循上表 OPEN 的解决流程。\n4. **验证可观察结果。** 保留现有测试，并用纯合成数据覆盖正好 1000 条完整输出、CR/LF/双引号/逗号/Unicode、私有 email 中的特殊字符完全被替换、额外字段和独立假 token 不出现、源对象未被改写。按获确认的超限契约补 1001 条测试。含换行单元格的 CSV 不用简单 split 换行来计记录；1000 条测试使用不含换行的合成单元格或完整期望字符串。\n5. **完成交付。** 在唯一项目目录运行下面的命令，记录实际 Node 版本、测试数量、退出码与失败原因；核对修改范围并更新 PLAN.md 的证据和 OPEN 状态。汇报实际改动、已运行验证及未解决项。若测试失败或业务边界仍 OPEN，不宣称导出功能全面完成。\n\n```powershell\nnode --version\nnode --test '${CASE_WORKSPACE}\\test\\export.test.js'\n```\n\n本次规划验证状态：已静态阅读需求、代码和测试；未实现 exportRows，未运行 Node 测试，未核验外部版本、注册表或安全公告。后续 Agent 必须执行上述验证，不能把规划证据当成集成通过。\n",
+        "src_export.js": "export function exportRows(rows) { throw new Error(\"not implemented\"); }\n"
+      },
+      "rubric_review": "pass in this sample"
+    },
+    {
+      "id": "12-generic-handoff",
+      "run": 2,
+      "exit_code": 0,
+      "timed_out": false,
+      "turn_completed": true,
+      "elapsed_seconds": 65.9,
+      "thread_id": "01a0c2f0-1cbb-7fe2-8ae6-14051484f6a3",
+      "usage": {
+        "input_tokens": 91662,
+        "cached_input_tokens": 70400,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1484,
+        "reasoning_output_tokens": 81
+      },
+      "changed_files": [
+        "src/export.js"
+      ],
+      "file_changes": {
+        "src/export.js": {
+          "before": "5356d5fc34aebe00b26a056a9b670c04dfbeb76c9c7fcf01237860c24e0c128e",
+          "after": "e204ff75575d018caa56675a85fb14ab7e9eb2d0f79d908cf34c1cb006b66d35"
+        }
+      },
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-example.md": "94d6ffebb6f2a938f90fff77cee4fb1ea69ef5881fd3974b464676e2daaf9dd3",
+        ".agents/skills/borrow/references/handoff-policy.md": "8292bb4c8ccb0c20c1fb890a12ca14e0cb26c3bfda505be6e1f32e1b57f05d4f",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "402e5f2197fa455c8cb0869d22e1f6d019b7ed476e49005bb7473aa825c3761b",
+        ".agents/skills/borrow/templates/reuse-plan.md": "2abce118ad912156b423aca55515525e8b86280b1835914bd824ec2b3be74456"
+      },
+      "events_sha256": "dac8a0a513f351445829b2551435090f8520b1a0f1a6dd06de3b7541841e9301",
+      "loaded_borrow": false,
+      "read_handoff_reference": false,
+      "read_produced_policy": true,
+      "read_produced_plan": true,
+      "nonzero_commands": [
+        {
+          "exit_code": 1,
+          "review": "Expected pre-implementation baseline: exportRows stub throws not implemented; both existing tests fail before editing."
+        }
+      ],
+      "passed_test_outputs": [
+        "✔ projects fixed columns, applies redaction, escapes CSV (0.5756ms)\n✔ empty export retains headers (0.0811ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 66.7512\n"
+      ],
+      "response": "第 3/3 步完成：CSV 导出已实现。\n\n- 唯一修改：[src/export.js](/${CASE_WORKSPACE}/src/export.js)。复用内部 `serializeCsv`，仅输出 `name,email`；严格按 `private === true` 脱敏，不读取或导出 `accessToken`。\n- 本轮实测：Node `v24.15.0`，已有测试 **2/2 通过，退出码 0**，覆盖固定列、脱敏、逗号和引号转义、空输入。文件哈希确认其他文件未变。\n- 仍未验证：1000 条边界、单元格换行、Unicode、输入不变性及更多泄漏场景；超限和非法输入契约仍未确定。维护与许可仅依据项目声明，未做外部安全核验。\n\n未安装、联网或修改政策、计划、测试和库文件。",
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n\n## Reuse Policy (POLICY)\n\n1. 长期 Reuse Budget 保持 Conservative，来源为用户明确选择。优先既有内部能力与轻量依赖；引入新框架、服务或大型项目必须有明确的总持有成本优势，且不得突破项目访问、安装与技术栈限制。\n2. 先确认需求，再检查本项目代码、依赖、测试和既有模式。成本相当时优先 ADOPT，其次 ADAPT，再 BUILD；BUILD 须说明理由。仅复用所需能力，不默认引入完整项目；通用基础能力可复用，业务规则与数据边界由项目掌控。\n3. 比较集成、测试、调试、升级、维护、安全、许可和替换成本。复用预算不能放宽正确性、许可、安全或平台兼容性要求；已有内部代码也必须确认适用性，未知项不得当作已通过。\n4. 当前仅允许项目内证据与合成数据，不进行外部发现。若未来另获外部访问授权，按资源类型选择官方文档、源仓库或对应注册表；当需求匹配、关键硬约束和持有成本已有足够证据时停止搜索。访问受限不等于没有候选，也不是自行 BUILD 的理由。\n5. 长期政策保留于 AGENTS.md；具体候选、日期证据、能力决策及交接保留于 PLAN.md，区分 POLICY、DECISION、PREFERENCE、OPEN。普通实现 Agent 直接负责复核本地代码、实际 API/运行时兼容性、维护与许可安全依据，并运行针对性集成验证；不依赖或要求安装 search-first。偏好替换需依据，设计决策修订需记录理由；与用户政策或业务要求冲突的部分交由用户决定，其他工作继续。规划不构成实施、安装或外部操作授权，未运行的测试不得报告通过。\n",
+        "PLAN.md": "# CSV 导出功能复用计划\n\n## 需求与范围\n\n唯一项目目录：`${CASE_WORKSPACE}`。下文简称项目根目录；文件操作必须使用该目录内的绝对路径，搜索前确认目录。本次只追加 AGENTS.md 政策并新建 PLAN.md，不实现代码。\n\n1. 按 PROJECT.md，为本地合成数据导出最多 1000 条数据记录的 CSV；列名与顺序严格为 `name,email`，不得导出 `accessToken` 或其他对象字段。\n2. `row.private === true` 时 email 必须替换为 `[redacted]`；其他合法记录保留 email。隐私处理发生在序列化之前。\n3. 维持 Node 与 ESM；通过现有同步接口 `exportRows(rows)` 返回 CSV 字符串。空数组输出 `name,email`；既有测试要求 CRLF 分隔且无末尾换行，逗号、双引号及换行由 CSV 序列化器处理。\n4. 长期预算为 **Conservative / POLICY**，来自本次用户指示及 AGENTS.md。只用项目内合成 fixtures；禁止网络、安装包、子进程 Agent、账号、用户文件和修改 .agents/skills；不新增 Excel 功能、服务或更换技术栈、业务规则。\n5. 交付目标是离线 fixture 功能，未指定生产发布等级、工期或性能 SLA。当前只规划；后续编码须获得相应任务授权。本计划不扩大当前仅能改两个文档的权限。\n\n## 本地证据与发现边界\n\n观察日期：2026-09-21。以下均为本项目静态阅读所得，不是外部注册表核验或已运行的集成测试。\n\n| 来源 | 已知事实 | 尚未验证 |\n| --- | --- | --- |\n| PROJECT.md | 明确内部团队拥有、维护、许可并为本项目审阅 `lib/csv.js`；说明其处理 CSV 转义，并要求用现有测试检查集成 | 未给出许可标识、维护日期、生产保证；声明只适用于此 fixture，不能外推到外部项目 |\n| lib/csv.js | 导出 `serializeCsv(rows)`，输入二维单元格数组；使用 String 转换、双引号翻倍、特殊字符包裹和 CRLF 拼接；无 import | 实际 Node 版本及 `replaceAll` 可用性、运行时集成、未覆盖边界；未作漏洞审计 |\n| package.json / src/export.js | ESM；测试脚本 `node --test`；未声明依赖或 engines；`exportRows(rows)` 仍直接抛出 not implemented | 没有可复用的字段投影或隐私处理实现；Node 版本未声明 |\n| test/export.test.js | 两条现有测试描述固定列、脱敏、引号/逗号转义及空输入行为，使用本地假数据 | 本次未执行；尚无 1000 行边界、换行或更多泄漏断言 |\n\n发现顺序为需求、内部模块、清单与测试。内部 CSV 模块已经给出合适候选，继续外部发现既无授权，也不增加当前决策价值；不声称外部没有更好的库。项目没有 search-first 或配套研究 Skill，交接由普通实现 Agent 完成，无需安装其他 Skill。\n\n## Capability Reuse Map\n\n| 能力 | 分类 | 决策 / 强度 | 复用类型与方向 | 原因、归属与架构影响 | 交接核查 |\n| --- | --- | --- | --- | --- | --- |\n| CSV 单元格转义与记录拼接 | Commodity | ADOPT / DECISION | Code/project：直接调用内部 `lib/csv.js` | 已有小型、无导入的实现且项目声明维护许可适用；内部模块拥有 CSV 格式正确性。无需复制、fork 或增加依赖 | 确认命名导出、二维数组 API、Node/ESM/replaceAll 兼容性，运行特殊字符与空输入集成测试 |\n| 固定列投影与隐私脱敏 | Core Differentiation（本项目须控制的产品规则） | BUILD / DECISION | None：在 `src/export.js` 写最小业务映射 | CSV 库不懂业务字段；本地无已有业务实现。小而稳定的白名单与脱敏逻辑比引入通用转换框架维护成本低；业务层拥有此规则 | 严格只构造 name、处理后的 email；不枚举整对象，不把原始对象传给 CSV 模块，验证 token/额外字段不泄漏 |\n| 导出入口与序列化组合 | Supporting | ADAPT / DECISION | Code/project：在现有 `exportRows` 入口组合业务映射与内部模块 | 增加薄适配层把对象数组转换为带表头的二维数组；沿用同步字符串接口，保持模块 API 不变，后续升级仅需验证此调用边界 | 空数组仍有表头，记录顺序不变；0–1000 条均完整导出，输入不被修改 |\n| 验收基础设施 | Commodity | ADOPT / DECISION | Dependency（Node 内置）及 Code/project：`node:test`、`node:assert/strict` 与现有测试 | 既有测试机制足够，无需测试框架、安装或服务；实现 Agent 负责有意义的补充断言 | 保留两条现有测试，补充边界与脱敏/转义集成案例并记录真实退出码 |\n\nADOPT、ADAPT、BUILD 比较：CSV 直接 ADOPT 最省所有权成本；修改 CSV 源码的 ADAPT 没有已知需求，自建转义器会重复承担格式测试与维护。业务映射 BUILD 是因为规则必须受项目控制且代码规模很小；组合入口 ADAPT 足以衔接既有组件，无需通用导出框架。外部包、完整导出项目和服务不进入候选短名单：当前禁止安装与外部访问，且已有能力覆盖所需通用部分。\n\n## 架构与未决项\n\n数据流：`对象数组 → src/export.js 白名单投影与脱敏 → [表头, ...数据行] → lib/csv.js serializeCsv → CSV 字符串`。只有经过投影的两个单元格进入序列化器；不写文件、不接服务、不引入新依赖。CSV 格式由内部库维护，产品规则与调用边界由项目维护；若内部库 API 变化，替换或调整集中在入口调用处，不侵入业务规则。\n\n| 强度 | 固定项或待办 | 责任与处理时点 |\n| --- | --- | --- |\n| POLICY | Conservative、离线项目范围、不导出 accessToken、保留栈与业务规则 | 所有后续 Agent 遵守；不能因复用方便而放宽 |\n| DECISION | 上述能力拆分、复用内部 CSV 库、项目控制白名单与脱敏、维持既有接口与输出格式 | 实现 Agent 按计划执行；若新证据否定适用性，在 PLAN.md 记录冲突与修订理由 |\n| PREFERENCE | 简单同步内存映射，暂不引入流式抽象；至多 1000 条的当前规模没有流式需求证据 | 可在同一约束内凭实测需要改实现细节，不得改变业务行为 |\n| OPEN | 超过 1000 条时拒绝还是其他行为；缺失字段、非字符串单元格、非法行的输入契约未明确 | 用户/需求负责人决定；实现 Agent 先检查本地是否新增明确约定，无依据时在实现这些分支前提出一个聚焦问题。先完成合法 0–1000 条路径，不擅自截断、丢行或发明清洗规则 |\n| OPEN（待实测） | Node 运行时、模块兼容性和集成测试结果 | 实现 Agent 在编码前检查环境，编码后运行测试；失败不得以换栈、安装包或声称已通过绕开 |\n\n现阶段以包含 name、email 的合法对象作为主验收输入，不把库的 `String(undefined)` 等行为提升为业务约定。1000 指数据记录数，表头另计；不添加 Excel 公式防护、BOM 或字段归一化等未要求行为。许可与维护采用 PROJECT.md 的本地 fixture 声明作为规划依据；若后续本地证据冲突，暂停受影响的复用结论，不自行联网核验。\n\n## 普通实现 Agent 的直接交接\n\n本节是未来获得编码授权后的执行步骤；当前授权仍仅限两个文档。无需 search-first，也不要启动其他 Agent。预计编码文件是 `src/export.js`，补充测试文件是 `test/export.test.js`；`lib/csv.js`、package.json 及技术栈按当前设计无需修改。若后续授权限制测试文件等范围，遵守该授权并说明未完成的验证。\n\n1. **读取上下文。** 确认上述唯一根目录，用该目录内的绝对路径读取 AGENTS.md、PLAN.md、PROJECT.md、package.json、src/export.js、lib/csv.js、test/export.test.js，以及目标目录新增的适用 AGENTS.md。固定项以本计划及项目规则为准，不假定继承当前对话。\n2. **自行复核候选。** 检查本地 CSV 源码是否变化、实际 API 与 ESM 导入方式、是否出现依赖或副作用；执行 `node --version` 确认实际环境，再运行现有测试记录基线。复核 PROJECT.md 中维护/许可声明及本地新增安全依据，不能用 borrow 技能自身 LICENSE 代替 CSV 模块许可，也不能把未联网解释为无漏洞。重大不一致记入 PLAN.md；保留可继续的无冲突工作。\n3. **实现最小组合。** 从 `../lib/csv.js` 导入 `serializeCsv`；入口明确构造 `['name', 'email']` 表头，再按原顺序构造每行两个单元格，用严格 `private === true` 决定 email 脱敏，交给内部库返回字符串。不得使用 Object.values 等整对象枚举或自行复制转义算法。保留输入不变；1000 条完整支持。超限和非法输入分支遵循上表 OPEN 的解决流程。\n4. **验证可观察结果。** 保留现有测试，并用纯合成数据覆盖正好 1000 条完整输出、CR/LF/双引号/逗号/Unicode、私有 email 中的特殊字符完全被替换、额外字段和独立假 token 不出现、源对象未被改写。按获确认的超限契约补 1001 条测试。含换行单元格的 CSV 不用简单 split 换行来计记录；1000 条测试使用不含换行的合成单元格或完整期望字符串。\n5. **完成交付。** 在唯一项目目录运行下面的命令，记录实际 Node 版本、测试数量、退出码与失败原因；核对修改范围并更新 PLAN.md 的证据和 OPEN 状态。汇报实际改动、已运行验证及未解决项。若测试失败或业务边界仍 OPEN，不宣称导出功能全面完成。\n\n```powershell\nnode --version\nnode --test '${CASE_WORKSPACE}\\test\\export.test.js'\n```\n\n本次规划验证状态：已静态阅读需求、代码和测试；未实现 exportRows，未运行 Node 测试，未核验外部版本、注册表或安全公告。后续 Agent 必须执行上述验证，不能把规划证据当成集成通过。\n",
+        "src_export.js": "import { serializeCsv } from \"../lib/csv.js\";\n\nexport function exportRows(rows) {\n  return serializeCsv([\n    [\"name\", \"email\"],\n    ...rows.map(row => [\n      row.name,\n      row.private === true ? \"[redacted]\" : row.email,\n    ]),\n  ]);\n}\n"
+      },
+      "rubric_review": "pass in this sample"
+    }
+  ]
+}
