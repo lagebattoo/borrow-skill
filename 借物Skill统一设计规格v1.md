@@ -1769,7 +1769,7 @@ Risks / Assumptions / Open Questions
 
 > Plan what to adopt, adapt, or build before coding, and capture lasting reuse policies in AGENTS.md.
 
-已创建私有 GitHub 仓库：[lagebattoo/borrow-skill](https://github.com/lagebattoo/borrow-skill)，本地项目已关联该仓库。Skill 尚未发布。
+GitHub 仓库：[lagebattoo/borrow-skill](https://github.com/lagebattoo/borrow-skill)，本地项目已关联该仓库。当前版本为 `v0.1.0` 早期版本，用户已选择 MIT 许可证并授权公开；发布内容与验证范围见 [README](./README.md) 和 [发布说明](./releases/v0.1.0.md)。
 
 ## B. 文档关系与当前状态
 
