@@ -1,0 +1,4 @@
+interface:
+  display_name: "借物 · Borrow"
+  short_description: "Plan what to adopt, adapt, or build before coding"
+  default_prompt: "Use $borrow to plan reuse for this project and capture durable reuse policies in AGENTS.md."
