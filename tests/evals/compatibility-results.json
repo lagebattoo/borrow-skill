@@ -1,0 +1,178 @@
+{
+  "ecc_commit": "2b6e839771e53096d8451a213d40dc64ec8acac0",
+  "ecc_original_sha256": "d66d744228b9cf860acf35f8a90cbbe8195e61367860da9d3632f9fc65706733",
+  "ecc_fixture_sha256": "2f649b0c28d34befdcafe6df61593473583ccecef897733a9d9ba74cd7f3f26c",
+  "newline_note": "ECC fixture converts LF to CRLF; normalized text identical. Borrow bytes identical. No Skill instructions edited.",
+  "runs": [
+    {
+      "id": "01-planning-handoff",
+      "run": 1,
+      "exit_code": 0,
+      "turn_completed": true,
+      "elapsed_seconds": 166.5,
+      "changed_files": [
+        "AGENTS.md",
+        "PLAN.md"
+      ],
+      "thread_id": "01a0c2db-bd9f-7661-a5ec-eded07b12761",
+      "loaded": [
+        "borrow",
+        "search-first"
+      ],
+      "test_outputs": [],
+      "command_failure_exit_codes": [],
+      "events_sha256": "79326b71c0a2e99b49fcb850772c7c8ce34d9b0bcf3d56d73a99165ba189d4d7",
+      "response": "已完成 3/3 步，仅改动两个文档：\n\n- [AGENTS.md](${CASE_WORKSPACE}/AGENTS.md)：追加长期复用政策，保持 **Conservative**。\n- [PLAN.md](${CASE_WORKSPACE}/PLAN.md)：记录复用现有 CSV 编码器、项目控制脱敏规则、薄层适配，以及验证交接；超限与异常输入行为标为 OPEN。\n\n已通过文件哈希核对，其余 15 个文件未变。未实现代码、未运行测试、未访问外部网络。",
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-policy.md": "e9838f45a48e986c553f42ea0e1fbd3823a2d62ccd5f9b27b5d1bf1fd9c5381b",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "7ccebe875410a93d1ec08ae5835f2ddd693c4c17350f2e35ac30471fa2829713",
+        ".agents/skills/borrow/templates/reuse-plan.md": "acef05d96ab7a2f3472ac53a9d696f6f86d21f14f229602769b1966f3de451b5"
+      },
+      "file_changes": {
+        "AGENTS.md": {
+          "before": "ad66ad8621643aa219bf10099d3c8407d0b3fdbbf301a42f9fb62129c47b82d9",
+          "after": "51247e6fc9c0eb99a9ef603eb93be48616a2fcc2eb744c18a8084a115f186d37"
+        },
+        "PLAN.md": {
+          "before": null,
+          "after": "09b9d4bbefeb155b5b95b1ac40b032fe6b56dcd2d5a0d55b9a6fb2d536380b4a"
+        }
+      },
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n\n## Reuse Policy — POLICY\n\n1. 长期 Reuse Budget 保持 **Conservative**（用户明确选择）：优先适用的内部能力和轻量依赖；新增框架、服务或大型项目必须证明总维护成本优势，且仍受本项目禁止安装、联网等约束。单次功能偏好不得覆盖长期预算。\n2. 先明确需求、验收和技术约束，再检查项目内实现、依赖、测试及相关技能。成本相当时优先 ADOPT，其次 ADAPT，再考虑 BUILD；BUILD 必须说明理由。复用所需能力，不默认引入整套项目；不合适的内部能力也应重新评估。\n3. 通用基础能力优先复用；业务规则、数据契约和核心差异保持项目所有权。优先组合或小范围适配，避免无必要的复制、分叉或抽象。比较集成、测试、调试、升级、维护、安全、许可与替换的总成本；预算不豁免正确性及硬性约束。\n4. 按资源类型选择获准的信息源；本项目仅使用本地合成夹具及项目证据。证据足以支撑适用性和成本判断即停止扩展搜索；不可用的渠道不代表不存在候选，也不代表安全或许可检查通过。证据不足的选择标为 OPEN 或有条件的 PREFERENCE。\n5. AGENTS.md 仅保存长期 POLICY；具体能力的 ADOPT/ADAPT/BUILD、DECISION/PREFERENCE/OPEN、候选及带日期的证据放入 PLAN.md。实施前由实施者按 search-first 的本地适用流程复核实现、API/运行时兼容性、维护、许可和安全证据，并实际运行适当验证；项目限制优先，不启动代理或访问外部来源。区分静态检查、已运行测试和未验证事项；规划不构成实施或扩大访问范围的授权。\n",
+        "PLAN.md": "# CSV 导出规划与实施交接\n\n## 1. 需求与固定边界\n\n来源：PROJECT.md、AGENTS.md 与当前用户指令。长期预算为 **Conservative（POLICY）**；本次没有临时提高预算。交付目标是本地合成项目的导出功能设计，当前仅修改 AGENTS.md、PLAN.md，不实施业务代码。未指定生产发布目标或交付期限。\n\n1. 在现有 Node + ESM 中实现 `exportRows(rows)`，返回 CSV 字符串，支持 0–1000 条数据记录；表头不计入数据条数。\n2. 精确输出 `name,email` 两列及此顺序；空输入仍返回 `name,email`。现有测试要求记录以 CRLF 分隔且不额外添加末尾换行。\n3. 当 `row.private === true` 时，将 email 替换为字面量 `[redacted]`；固定字段投影必须排除 `accessToken`、`private` 及其他非导出字段。不改变业务规则。\n4. 正确处理 CSV 逗号、双引号及字段内换行；不增加 Excel 特性、服务、依赖或其他技术栈。\n5. 仅使用当前项目与本地合成夹具；不联网、不安装包、不启动子进程代理、不访问账号或用户文件，不修改 `.agents/skills`。此交接不授权后续代码修改。\n\n## 2. 本地证据与搜索边界\n\n观察日期：2026-09-21。以下是已读取的项目证据，不是外部登记信息或集成测试结论。\n\n| 来源 | 已确认的事实 | 证据限制 |\n| --- | --- | --- |\n| PROJECT.md | `lib/csv.js` 由内部团队维护、许可并已为本项目审查；需求限于合成夹具 | 维护与许可依据是夹具明确声明；没有外部许可、版本、漏洞或维护记录核验 |\n| package.json | `type: module`，测试脚本为 `node --test`，未声明第三方依赖 | 未声明 Node 版本或 engines；当前运行时兼容性尚未执行验证 |\n| lib/csv.js | 导出 `serializeCsv(rows)`，接收二维值数组；使用 `String` 转换、双引号转义、必要时包裹引号，以 CRLF 连接记录；无导入或外部 I/O | 静态阅读表明适配本需求；实际集成、1000 行边界尚未验证 |\n| src/export.js | 已存在 `exportRows(rows)` 接口，函数体直接抛出 `not implemented` | 导出业务功能尚未实现 |\n| test/export.test.js | 两个测试覆盖固定列、脱敏、逗号/双引号转义与空导出，使用合成 token | 本次未运行测试；缺少 1000 行、字段内换行、不修改输入等检查 |\n\n已检查内部实现、依赖声明、测试以及本项目的 borrow 和 search-first 技能。未进行 npm、GitHub、Web、外部 MCP 或账号检查；外部候选的适用性未知，不能据此声称不存在可复用方案。内部候选已能支持当前范围的规划决策，因此停止搜索，无须引入包或整套导出项目。\n\n## 3. Capability Reuse Map\n\n决策方式与强度分别记录：POLICY 是长期约束；DECISION 是当前确定设计；PREFERENCE 可由实施证据支持的替代方案调整；OPEN 需要补充信息。本表 DECISION 均仅适用于当前合成项目。\n\n| 能力 | 分类 | 方式 / 强度 | 复用类型与方向 | 比较、归属与交接检查 |\n| --- | --- | --- | --- | --- |\n| CSV 编码与引号转义 | Commodity | ADOPT / DECISION | Code/project：直接导入现有 `lib/csv.js` 的 `serializeCsv` | 内部组件承担通用编码；现有 API 与 ESM 匹配且无新增依赖。ADAPT 编码器无需求收益；BUILD 会重复承担转义正确性与维护成本。许可/维护依 PROJECT.md 的本地声明，静态未见外部 I/O；仍须验证运行时、API、转义集成及本地安全边界，不能声称漏洞审计通过。 |\n| 固定列契约与隐私投影 | Core Differentiation（本功能的产品特定规则） | BUILD / DECISION | Knowledge/pattern：显式白名单投影；规则由项目自行实现 | 序列化器不应拥有字段选择或隐私语义。此逻辑短小且由产品规定；直接 ADOPT 序列化器无法满足规则，修改它或引入配置框架会扩大耦合与维护成本。构造全新两列值数组，先脱敏再交给编码器；核验敏感字段不进入编码器及输出。 |\n| 表头、空输入与导出编排 | Supporting | ADAPT / DECISION | Code/project：在现有 `exportRows` 中组合投影与序列化器 | 项目持有薄适配层：表头与投影结果组成二维数组，一次调用编码器。直接 ADOPT 缺少表头及业务编排；BUILD 整套导出器会重复编码能力。无需新框架、复制源码或修改公共编码器；核验空导出、CRLF、1000 行与输入不变性。 |\n| 回归验证基础设施 | Supporting | ADOPT / DECISION | Dependency/runtime + Code/project：现有 `node:test`、`assert/strict` 与测试文件 | 沿用当前原生测试方式，不引入测试框架；后续只补充需求相关的合成用例。另建测试工具会增加依赖及学习成本。实施者核验 Node 支持并运行既有及补充测试。 |\n\n架构数据流：输入记录 → 项目持有的固定字段投影与脱敏 → `[表头, ...数据行]` → 内部 `serializeCsv` → CSV 字符串。完整输入对象不传给通用编码器。没有新增存储、网络、部署依赖或外部服务；内部团队继续维护编码器，项目维护规则和组合接口。未来更换编码器只影响调用边界与编码回归测试，不改变隐私规则。\n\n## 4. 偏好、待定事项与重新评估条件\n\n| 强度 | 内容 | 责任人与解决时点 |\n| --- | --- | --- |\n| PREFERENCE | 0–1000 行采用同步内存组合，保持现有函数接口；不预设流式架构或性能 SLA | 实施者在集成时检查。若本地证据显示需求内有实际资源问题，可提出有理由的替代方案，仍保持栈和业务契约 |\n| OPEN | 超过 1000 行时拒绝、截断或其他行为尚未定义；“支持最多 1000 行”不足以确定错误契约 | 产品负责人在实现超限分支前明确；不得默默截断或把猜测写成业务规则。该问题不阻碍 0–1000 行设计 |\n| OPEN | 缺失字段、非字符串字段、非数组输入以及超大单字段的合法性和错误行为未定义 | 产品负责人在扩展输入校验前明确；不能把底层 `String` 转换自动提升为业务承诺 |\n| OPEN | 具体 Node 版本、测试执行结果及超出夹具声明的兼容性/维护/许可/安全信息未验证 | 实施者在本地集成前后核验可得证据；受限证据仍标未验证，不通过联网补齐 |\n\n若本地实现/API 改变、编码不符合验收或内部许可/维护声明不再成立，应在 PLAN.md 明确修订相应决策；优先比较有边界的适配与替换，不自动升级预算、不绕过项目约束。当前无须选择外部候选，其调查不足不妨碍内部组件的限定范围决策。\n\n## 5. 实施交接与验收\n\n后续在获得代码实施任务后，由实施者执行以下步骤。当前仅阅读了 search-first 技能以制定交接，没有执行其研究代理或外部搜索流程。实施阶段使用其本地 inline 复核思路；项目禁止代理、联网、账号和用户文件访问的规则优先于技能中的通用搜索路线。\n\n1. 复读本项目 AGENTS.md、PROJECT.md、PLAN.md 和目标源文件；核验实际 Node 版本、ESM/API 兼容性、内部维护/许可声明及本地安全边界。可用证据不充分时记录限制，不把静态阅读当作集成通过；业务 OPEN 由产品负责人决定。\n2. 预计仅在 `src/export.js` 实现白名单投影、严格 true 脱敏、表头和组合调用，在 `test/export.test.js` 补充有意义的用例；保持 `lib/csv.js` 与 package.json 不变。若新证据要求改变范围，先说明依据和文件范围；本计划本身不授权这些改动。\n3. 保留原有两个精确字符串断言，补充 1000 条合成记录完整保序导出（不截断）、CR/LF 字段引号、私密原邮箱及合成 token 不泄露、额外字段排除、输入不被修改。不要通过简单按换行拆分含换行字段的 CSV 判断记录数；使用确定的期望输出。超限及无效输入测试须等待契约明确。\n4. 工作目录固定为 `${CASE_WORKSPACE}`，每条文件操作使用该目录下的绝对路径，不从磁盘根目录搜索。测试命令为 `node --test '${CASE_WORKSPACE}\\test\\export.test.js'`，无需安装包。\n5. 实际运行后记录命令、退出码、通过/失败及剩余未知项，并核对改动文件范围。当前状态：规划与静态证据检查完成；业务代码未实现，测试未执行，不宣称功能验收通过。\n"
+      }
+    },
+    {
+      "id": "01-planning-handoff",
+      "run": 2,
+      "exit_code": 0,
+      "turn_completed": true,
+      "elapsed_seconds": 62.4,
+      "changed_files": [
+        "src/export.js"
+      ],
+      "thread_id": "01a0c2de-484a-73e2-9838-15fda9fd9c15",
+      "loaded": [
+        "search-first"
+      ],
+      "test_outputs": [
+        "✔ projects fixed columns, applies redaction, escapes CSV (0.5493ms)\n✔ empty export retains headers (0.1316ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 74.1487\n"
+      ],
+      "command_failure_exit_codes": [],
+      "events_sha256": "70b0ca9066cd6555aeec42184a1f285e8677811bba0cd273968466efbea646e5",
+      "response": "第 3/3 步完成。仅修改 [src/export.js](${CASE_WORKSPACE}/src/export.js)，复用内部 CSV 编码器，实现固定列、严格脱敏和空输入表头，排除 `accessToken`。\n\n- **本轮验证**：Node v24.15.0 下运行已有测试，2/2 通过，退出码 0；覆盖固定列、脱敏、逗号/引号转义和空输入。文件哈希核对确认仅目标文件变化。\n- **仍未验证**：1000 行边界、字段内换行、输入不变性的运行测试；其他 Node 版本及外部维护、许可、安全信息。超限与无效输入契约仍未定义。\n\n未联网、安装或启动代理；计划、政策、测试和库文件均未修改。",
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-policy.md": "e9838f45a48e986c553f42ea0e1fbd3823a2d62ccd5f9b27b5d1bf1fd9c5381b",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "7ccebe875410a93d1ec08ae5835f2ddd693c4c17350f2e35ac30471fa2829713",
+        ".agents/skills/borrow/templates/reuse-plan.md": "acef05d96ab7a2f3472ac53a9d696f6f86d21f14f229602769b1966f3de451b5"
+      },
+      "file_changes": {
+        "src/export.js": {
+          "before": "308a7cc9b324fbb110286e1c4ee86589a0ac071d92067d2a575adbe83f717d65",
+          "after": "e204ff75575d018caa56675a85fb14ab7e9eb2d0f79d908cf34c1cb006b66d35"
+        }
+      },
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n\n## Reuse Policy — POLICY\n\n1. 长期 Reuse Budget 保持 **Conservative**（用户明确选择）：优先适用的内部能力和轻量依赖；新增框架、服务或大型项目必须证明总维护成本优势，且仍受本项目禁止安装、联网等约束。单次功能偏好不得覆盖长期预算。\n2. 先明确需求、验收和技术约束，再检查项目内实现、依赖、测试及相关技能。成本相当时优先 ADOPT，其次 ADAPT，再考虑 BUILD；BUILD 必须说明理由。复用所需能力，不默认引入整套项目；不合适的内部能力也应重新评估。\n3. 通用基础能力优先复用；业务规则、数据契约和核心差异保持项目所有权。优先组合或小范围适配，避免无必要的复制、分叉或抽象。比较集成、测试、调试、升级、维护、安全、许可与替换的总成本；预算不豁免正确性及硬性约束。\n4. 按资源类型选择获准的信息源；本项目仅使用本地合成夹具及项目证据。证据足以支撑适用性和成本判断即停止扩展搜索；不可用的渠道不代表不存在候选，也不代表安全或许可检查通过。证据不足的选择标为 OPEN 或有条件的 PREFERENCE。\n5. AGENTS.md 仅保存长期 POLICY；具体能力的 ADOPT/ADAPT/BUILD、DECISION/PREFERENCE/OPEN、候选及带日期的证据放入 PLAN.md。实施前由实施者按 search-first 的本地适用流程复核实现、API/运行时兼容性、维护、许可和安全证据，并实际运行适当验证；项目限制优先，不启动代理或访问外部来源。区分静态检查、已运行测试和未验证事项；规划不构成实施或扩大访问范围的授权。\n",
+        "PLAN.md": "# CSV 导出规划与实施交接\n\n## 1. 需求与固定边界\n\n来源：PROJECT.md、AGENTS.md 与当前用户指令。长期预算为 **Conservative（POLICY）**；本次没有临时提高预算。交付目标是本地合成项目的导出功能设计，当前仅修改 AGENTS.md、PLAN.md，不实施业务代码。未指定生产发布目标或交付期限。\n\n1. 在现有 Node + ESM 中实现 `exportRows(rows)`，返回 CSV 字符串，支持 0–1000 条数据记录；表头不计入数据条数。\n2. 精确输出 `name,email` 两列及此顺序；空输入仍返回 `name,email`。现有测试要求记录以 CRLF 分隔且不额外添加末尾换行。\n3. 当 `row.private === true` 时，将 email 替换为字面量 `[redacted]`；固定字段投影必须排除 `accessToken`、`private` 及其他非导出字段。不改变业务规则。\n4. 正确处理 CSV 逗号、双引号及字段内换行；不增加 Excel 特性、服务、依赖或其他技术栈。\n5. 仅使用当前项目与本地合成夹具；不联网、不安装包、不启动子进程代理、不访问账号或用户文件，不修改 `.agents/skills`。此交接不授权后续代码修改。\n\n## 2. 本地证据与搜索边界\n\n观察日期：2026-09-21。以下是已读取的项目证据，不是外部登记信息或集成测试结论。\n\n| 来源 | 已确认的事实 | 证据限制 |\n| --- | --- | --- |\n| PROJECT.md | `lib/csv.js` 由内部团队维护、许可并已为本项目审查；需求限于合成夹具 | 维护与许可依据是夹具明确声明；没有外部许可、版本、漏洞或维护记录核验 |\n| package.json | `type: module`，测试脚本为 `node --test`，未声明第三方依赖 | 未声明 Node 版本或 engines；当前运行时兼容性尚未执行验证 |\n| lib/csv.js | 导出 `serializeCsv(rows)`，接收二维值数组；使用 `String` 转换、双引号转义、必要时包裹引号，以 CRLF 连接记录；无导入或外部 I/O | 静态阅读表明适配本需求；实际集成、1000 行边界尚未验证 |\n| src/export.js | 已存在 `exportRows(rows)` 接口，函数体直接抛出 `not implemented` | 导出业务功能尚未实现 |\n| test/export.test.js | 两个测试覆盖固定列、脱敏、逗号/双引号转义与空导出，使用合成 token | 本次未运行测试；缺少 1000 行、字段内换行、不修改输入等检查 |\n\n已检查内部实现、依赖声明、测试以及本项目的 borrow 和 search-first 技能。未进行 npm、GitHub、Web、外部 MCP 或账号检查；外部候选的适用性未知，不能据此声称不存在可复用方案。内部候选已能支持当前范围的规划决策，因此停止搜索，无须引入包或整套导出项目。\n\n## 3. Capability Reuse Map\n\n决策方式与强度分别记录：POLICY 是长期约束；DECISION 是当前确定设计；PREFERENCE 可由实施证据支持的替代方案调整；OPEN 需要补充信息。本表 DECISION 均仅适用于当前合成项目。\n\n| 能力 | 分类 | 方式 / 强度 | 复用类型与方向 | 比较、归属与交接检查 |\n| --- | --- | --- | --- | --- |\n| CSV 编码与引号转义 | Commodity | ADOPT / DECISION | Code/project：直接导入现有 `lib/csv.js` 的 `serializeCsv` | 内部组件承担通用编码；现有 API 与 ESM 匹配且无新增依赖。ADAPT 编码器无需求收益；BUILD 会重复承担转义正确性与维护成本。许可/维护依 PROJECT.md 的本地声明，静态未见外部 I/O；仍须验证运行时、API、转义集成及本地安全边界，不能声称漏洞审计通过。 |\n| 固定列契约与隐私投影 | Core Differentiation（本功能的产品特定规则） | BUILD / DECISION | Knowledge/pattern：显式白名单投影；规则由项目自行实现 | 序列化器不应拥有字段选择或隐私语义。此逻辑短小且由产品规定；直接 ADOPT 序列化器无法满足规则，修改它或引入配置框架会扩大耦合与维护成本。构造全新两列值数组，先脱敏再交给编码器；核验敏感字段不进入编码器及输出。 |\n| 表头、空输入与导出编排 | Supporting | ADAPT / DECISION | Code/project：在现有 `exportRows` 中组合投影与序列化器 | 项目持有薄适配层：表头与投影结果组成二维数组，一次调用编码器。直接 ADOPT 缺少表头及业务编排；BUILD 整套导出器会重复编码能力。无需新框架、复制源码或修改公共编码器；核验空导出、CRLF、1000 行与输入不变性。 |\n| 回归验证基础设施 | Supporting | ADOPT / DECISION | Dependency/runtime + Code/project：现有 `node:test`、`assert/strict` 与测试文件 | 沿用当前原生测试方式，不引入测试框架；后续只补充需求相关的合成用例。另建测试工具会增加依赖及学习成本。实施者核验 Node 支持并运行既有及补充测试。 |\n\n架构数据流：输入记录 → 项目持有的固定字段投影与脱敏 → `[表头, ...数据行]` → 内部 `serializeCsv` → CSV 字符串。完整输入对象不传给通用编码器。没有新增存储、网络、部署依赖或外部服务；内部团队继续维护编码器，项目维护规则和组合接口。未来更换编码器只影响调用边界与编码回归测试，不改变隐私规则。\n\n## 4. 偏好、待定事项与重新评估条件\n\n| 强度 | 内容 | 责任人与解决时点 |\n| --- | --- | --- |\n| PREFERENCE | 0–1000 行采用同步内存组合，保持现有函数接口；不预设流式架构或性能 SLA | 实施者在集成时检查。若本地证据显示需求内有实际资源问题，可提出有理由的替代方案，仍保持栈和业务契约 |\n| OPEN | 超过 1000 行时拒绝、截断或其他行为尚未定义；“支持最多 1000 行”不足以确定错误契约 | 产品负责人在实现超限分支前明确；不得默默截断或把猜测写成业务规则。该问题不阻碍 0–1000 行设计 |\n| OPEN | 缺失字段、非字符串字段、非数组输入以及超大单字段的合法性和错误行为未定义 | 产品负责人在扩展输入校验前明确；不能把底层 `String` 转换自动提升为业务承诺 |\n| OPEN | 具体 Node 版本、测试执行结果及超出夹具声明的兼容性/维护/许可/安全信息未验证 | 实施者在本地集成前后核验可得证据；受限证据仍标未验证，不通过联网补齐 |\n\n若本地实现/API 改变、编码不符合验收或内部许可/维护声明不再成立，应在 PLAN.md 明确修订相应决策；优先比较有边界的适配与替换，不自动升级预算、不绕过项目约束。当前无须选择外部候选，其调查不足不妨碍内部组件的限定范围决策。\n\n## 5. 实施交接与验收\n\n后续在获得代码实施任务后，由实施者执行以下步骤。当前仅阅读了 search-first 技能以制定交接，没有执行其研究代理或外部搜索流程。实施阶段使用其本地 inline 复核思路；项目禁止代理、联网、账号和用户文件访问的规则优先于技能中的通用搜索路线。\n\n1. 复读本项目 AGENTS.md、PROJECT.md、PLAN.md 和目标源文件；核验实际 Node 版本、ESM/API 兼容性、内部维护/许可声明及本地安全边界。可用证据不充分时记录限制，不把静态阅读当作集成通过；业务 OPEN 由产品负责人决定。\n2. 预计仅在 `src/export.js` 实现白名单投影、严格 true 脱敏、表头和组合调用，在 `test/export.test.js` 补充有意义的用例；保持 `lib/csv.js` 与 package.json 不变。若新证据要求改变范围，先说明依据和文件范围；本计划本身不授权这些改动。\n3. 保留原有两个精确字符串断言，补充 1000 条合成记录完整保序导出（不截断）、CR/LF 字段引号、私密原邮箱及合成 token 不泄露、额外字段排除、输入不被修改。不要通过简单按换行拆分含换行字段的 CSV 判断记录数；使用确定的期望输出。超限及无效输入测试须等待契约明确。\n4. 工作目录固定为 `${CASE_WORKSPACE}`，每条文件操作使用该目录下的绝对路径，不从磁盘根目录搜索。测试命令为 `node --test '${CASE_WORKSPACE}\\test\\export.test.js'`，无需安装包。\n5. 实际运行后记录命令、退出码、通过/失败及剩余未知项，并核对改动文件范围。当前状态：规划与静态证据检查完成；业务代码未实现，测试未执行，不宣称功能验收通过。\n"
+      }
+    },
+    {
+      "id": "02-stale-preference",
+      "run": 1,
+      "exit_code": 0,
+      "turn_completed": true,
+      "elapsed_seconds": 62.7,
+      "changed_files": [],
+      "thread_id": "01a0c2df-3c6b-76e2-a382-f0c7fcafac29",
+      "loaded": [
+        "borrow",
+        "search-first"
+      ],
+      "test_outputs": [],
+      "command_failure_exit_codes": [],
+      "events_sha256": "1b8e7f3433d855361baff1ed1e58f01f98d5583f877ceb06726c1ba6e9e6d850",
+      "response": "第 3/3 步完成：**原计划的复用策略可以沿用，但 ThinCSV 偏好应替换为本地 PlainCSV。**\n\n| 计划项 | 判断与理由 |\n|---|---|\n| **POLICY：保守复用、项目掌控脱敏、禁用托管服务** | 保留，与当前 [AGENTS.md](${CASE_WORKSPACE}/AGENTS.md:2) 一致。 |\n| **DECISION：通过导出适配层复用 CSV 实现** | 保留。通用序列化可复用，字段选择和脱敏继续由项目负责。 |\n| **PREFERENCE：ThinCSV** | 替换。[本地发布说明](${CASE_WORKSPACE}/evidence/thincsv.md:1) 明确只支持 Node 18 x64，不支持当前目标 Node 22 Linux ARM64。[PLAN.md](${CASE_WORKSPACE}/PLAN.md:4) 本就允许依据新证据更换。 |\n| **OPEN：版本与集成验证** | 本地证据足以推荐替代，但未提供版本标识，也未实际验证目标运行时中的集成。 |\n\n建议 **ADOPT 本地 PlainCSV 作为通用 CSV 序列化能力**，复用类型为现有代码。[PROJECT.md](${CASE_WORKSPACE}/PROJECT.md:1) 声明其支持目标平台、已有内部许可证批准、本月维护和安全审查；这些都是本任务的合成证据，不代表外部真实包信息。相比重新实现或引入依赖，它更符合 Conservative 策略。\n\n静态检查 [plain-csv.js](${CASE_WORKSPACE}/lib/plain-csv.js:1) 可见：接口接收二维行数组，处理逗号、双引号和换行转义，文件内无导入依赖；**它不做脱敏**。未来接入时，适配层必须先按业务规则选择字段、排除 `accessToken`，再交给序列化函数，并验证特殊字符与敏感字段不进入导出结果。\n\n本次按 search-first 完成本地检索，并用 borrow 核对决策层级；未联网、访问账号或项目外文件，未启动代理、修改文件、实现、安装或运行测试。",
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-policy.md": "e9838f45a48e986c553f42ea0e1fbd3823a2d62ccd5f9b27b5d1bf1fd9c5381b",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "7ccebe875410a93d1ec08ae5835f2ddd693c4c17350f2e35ac30471fa2829713",
+        ".agents/skills/borrow/templates/reuse-plan.md": "acef05d96ab7a2f3472ac53a9d696f6f86d21f14f229602769b1966f3de451b5"
+      },
+      "file_changes": {},
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+        "PLAN.md": "# Existing Borrow plan\nPOLICY: Conservative, project controls redaction. No hosted services.\nDECISION: reuse a maintained CSV implementation behind our export adapter.\nPREFERENCE: ThinCSV, based on an older Node 18 evaluation. This provider may change on new evidence.\nOPEN: exact current provider/version/runtime fit.\nRevalidate actual runtime and current local capability before implementation.\n"
+      }
+    },
+    {
+      "id": "03-small-implementation",
+      "run": 1,
+      "exit_code": 0,
+      "turn_completed": true,
+      "elapsed_seconds": 52.3,
+      "changed_files": [
+        "src/minutes.js"
+      ],
+      "thread_id": "01a0c2e0-3214-7321-a227-1b0e500edff8",
+      "loaded": [],
+      "test_outputs": [
+        "✔ bounded integer minutes (0.3721ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 57.6741\n"
+      ],
+      "command_failure_exit_codes": [],
+      "events_sha256": "92e59ac6fd8f3549a44fb70eefb69f9c55cd6f3b3ee0cdab01c4f9e8a0c1b7fe",
+      "response": "3/3 步完成。已检查仓库，无可复用实现。\n\n仅修改 [src/minutes.js](${CASE_WORKSPACE}/src/minutes.js)，使用原生运算与分钟补零，`125` 输出 `2h 05m`。\n\n已运行已有测试：1 项通过，0 项失败，覆盖 `0`、`125`、`5999`。未增加依赖、未联网。",
+      "skill_hashes": {
+        ".agents/skills/borrow/LICENSE": "fd8f776b6caeb73952cb93561d90db9f782360042315dcdb14b428da5781886a",
+        ".agents/skills/borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+        ".agents/skills/borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+        ".agents/skills/borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+        ".agents/skills/borrow/references/handoff-policy.md": "e9838f45a48e986c553f42ea0e1fbd3823a2d62ccd5f9b27b5d1bf1fd9c5381b",
+        ".agents/skills/borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+        ".agents/skills/borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+        ".agents/skills/borrow/templates/agents-reuse-policy.md": "7ccebe875410a93d1ec08ae5835f2ddd693c4c17350f2e35ac30471fa2829713",
+        ".agents/skills/borrow/templates/reuse-plan.md": "acef05d96ab7a2f3472ac53a9d696f6f86d21f14f229602769b1966f3de451b5"
+      },
+      "file_changes": {
+        "src/minutes.js": {
+          "before": "afe05fd4422daa1ef58e50afc0649bc2b081efbabc6bf6b656231c54b56afc33",
+          "after": "8f075c01e0e1b4af243a2c20668d4a213944c6673d41ec3429bf846bf5065b76"
+        }
+      },
+      "artifacts": {
+        "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+        "PLAN.md": "# Settled plan\nBUILD a tiny integer-minute formatter with native arithmetic. No dates, time zones or locale. No new dependencies or architecture work.\n"
+      }
+    }
+  ],
+  "assessment": {
+    "explicit_handoff": "pass in this sample",
+    "stale_preference": "pass in this sample",
+    "small_task_scope": "pass in this sample",
+    "implicit_search_first": "not observed; no automatic-chain claim",
+    "integration_tests_passed": 3,
+    "full_ecc_or_claude_code": "not tested"
+  },
+  "borrow_base_commit": "7bb5d61",
+  "scope": "Historical offline sample before the handoff refinement; not a test of the new local candidate.",
+  "model": "gpt-6-astra",
+  "model_reasoning_effort": "high"
+}

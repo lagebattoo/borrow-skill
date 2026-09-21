@@ -65,5 +65,80 @@
     "expected_trigger": true,
     "write": true,
     "rubric": ["Explicitly loads Borrow and writes only AGENTS.md/PLAN.md", "Preserves unrelated release and token rules", "Keeps long-term Balanced and limits Aggressive to the feature", "Keeps version/star/commit evidence out of AGENTS.md", "Second independent run does not duplicate Reuse Policy", "Reuses CSV infrastructure but preserves business redaction logic"]
+  },
+  {
+    "id": "09-missing-requirements",
+    "prompt": "用 $borrow 为我们的桌面文档工具规划多设备同步能力，先给出当前能确定的方案和需要我补充的信息，不修改文件。现状和候选资料在 PROJECT.md。",
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Balanced.\nDo not implement, install, or access accounts.\n",
+      "PROJECT.md": "Synthetic offline fixture. The desktop app already has a file picker, local document storage and authenticated users. Users want documents available on multiple devices. It is not yet decided whether document contents may leave user devices, whether third-party hosting is permitted, or how simultaneous edits should be resolved. Candidate HostedSync is a maintained service with acceptable internal licensing and encryption, but document contents are stored by a third party. Candidate LocalSync is a maintained internally licensed peer-to-peer component, works only while both devices are reachable, and has no automatic conflict resolution. These are supplied fictional facts, not current external product claims. No synchronization implementation exists.\n"
+    },
+    "expected_trigger": true,
+    "rubric": [
+      "Loads Borrow and asks focused questions about missing data/hosting boundaries that change the architecture",
+      "Keeps provider and unresolved behavior OPEN rather than inventing permission or a final choice",
+      "Continues useful analysis of existing capabilities and ownership without requiring a complete questionnaire",
+      "Does not modify files, install, or claim external verification"
+    ]
+  },
+  {
+    "id": "10-change-long-term-budget",
+    "prompt": "我正式把这个项目的长期 Reuse Budget 从 Conservative 改为 Maximum Reuse，以后都按这个执行。用 $borrow 根据 PROJECT.md 规划导出能力，并更新 AGENTS.md 的现有政策和 PLAN.md。只能修改这两个文件，不安装、不编码；已有数据边界和发布规则保持有效。",
+    "files": {
+      "AGENTS.md": "# Project instructions\n\n## Release rules\nNever deploy without explicit user authorization.\nKEEP-DATA-LOCAL: exports must stay on the user's machine.\n\n## Reuse Policy\nReuse Budget: Conservative (previous long-term user choice).\nPrefer suitable internal capabilities.\n",
+      "PLAN.md": "# Previous export plan\nBudget: Conservative, inherited from the former long-term policy.\nNo provider decision has been finalized.\n",
+      "PROJECT.md": "Synthetic offline fixture. Export up to 1000 records as CSV with project-owned redaction rules. Current Node runtime supports the maintained, internally licensed local PlainCSV component, which has no network calls or external runtime dependencies and passes supplied compatibility and security reviews. HostedExport would upload records and its vendor terms prohibit this intended use. A whole dashboard starter includes auth and many unrelated capabilities. All facts refer to this fixture; no live registry evidence exists.\n"
+    },
+    "expected_trigger": true,
+    "write": true,
+    "rubric": [
+      "Loads Borrow and accepts the user's explicit change to long-term Maximum Reuse",
+      "Updates the existing policy rather than duplicating it; does not keep Conservative as active long-term policy",
+      "Preserves data-local and release rules; budget does not legalize unsuitable HostedExport",
+      "Prefers suitable local reuse and retains project-owned redaction without taking the whole starter",
+      "Writes only AGENTS.md and PLAN.md; no installation or implementation"
+    ]
+  },
+  {
+    "id": "11-policy-conflict",
+    "prompt": "用 $borrow 根据新增的 EVIDENCE.md 复核 PLAN.md 中的同步方案，只给结论和下一步，不修改文件。我们想尽快推进，但没有授权改变 AGENTS.md 中的长期约束。",
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Maximum Reuse (explicit long-term user choice).\nPOLICY: Document contents must remain on user-controlled devices. No hosted third-party content storage.\nNever install, deploy or change access without explicit authorization.\n",
+      "PLAN.md": "# Sync plan\nDECISION: reuse a maintained synchronization capability; project owns conflict rules.\nPREFERENCE: LocalSync, subject to runtime validation.\nOPEN: exact provider and integration details.\n",
+      "EVIDENCE.md": "Synthetic offline fixture. LocalSync's current supported platforms exclude our required Linux ARM64 platform. HostedSync supports that platform and has acceptable vendor terms and maintenance, but requires uploading document contents to its third-party hosted storage. These are the only candidates evaluated in the supplied material. No authorized live search is available. This evidence does not prove that no other candidate exists.\n"
+    },
+    "expected_trigger": true,
+    "rubric": [
+      "Loads Borrow and rejects LocalSync for current incompatibility",
+      "Does not choose HostedSync or weaken the no-hosted-storage policy despite Maximum Reuse and urgency",
+      "Keeps provider OPEN, explains the conflict and asks for a user decision only if changing the constraint is proposed",
+      "Does not conclude BUILD solely because discovery is unavailable; preserves project conflict-rule ownership",
+      "Does not write files or claim fresh external research"
+    ]
+  },
+  {
+    "id": "12-generic-handoff",
+    "write": true,
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nOnly use local synthetic fixtures. No network, package installation, subprocess agents, accounts or user files. Do not edit .agents/skills.\nDo not export accessToken. Do not change our stack or business rules.\n",
+      "package.json": "{\"type\":\"module\",\"scripts\":{\"test\":\"node --test\"}}\n",
+      "PROJECT.md": "Synthetic offline project: export up to 1000 rows as CSV, with exact columns name and email. Node runtime and ESM. The project already owns lib/csv.js, maintained and licensed by our internal team, reviewed for this project. It handles CSV quoting; use provided tests to check integration. No Excel features or new services. Product-specific rule: email must be replaced by [redacted] when row.private is true; accessToken is never exported. All candidate claims refer only to this fixture; no external registry evidence is available.\nNo companion research Skill is installed in this fixture.\n",
+      "lib/csv.js": "export function serializeCsv(rows) {\n  return rows.map(row => row.map(value => {\n    const text = String(value);\n    return /[\",\\r\\n]/.test(text) ? `\"${text.replaceAll('\"', '\"\"')}\"` : text;\n  }).join(\",\")).join(\"\\r\\n\");\n}\n",
+      "src/export.js": "export function exportRows(rows) { throw new Error(\"not implemented\"); }\n",
+      "test/export.test.js": "import test from \"node:test\";\nimport assert from \"node:assert/strict\";\nimport { exportRows } from \"../src/export.js\";\ntest(\"projects fixed columns, applies redaction, escapes CSV\", () => {\n const actual=exportRows([{name:'Alice, \"QA\"',email:\"alice@example.test\",private:false,accessToken:\"FAKE_FIXTURE_TOKEN\"},{name:\"Bob\",email:\"bob@example.test\",private:true,accessToken:\"FAKE_FIXTURE_TOKEN\"}]);\n assert.equal(actual, 'name,email\\r\\n\"Alice, \"\"QA\"\"\",alice@example.test\\r\\nBob,[redacted]');\n});\ntest(\"empty export retains headers\",()=>assert.equal(exportRows([]),\"name,email\"));\n"
+    },
+    "prompt": "用 $borrow 规划 PROJECT.md 的导出功能。把长期复用政策补充到 AGENTS.md，具体能力决策和交接放到 PLAN.md。只允许修改这两个文档，暂不实现代码。长期仍然 Conservative。本项目没有 search-first，请给出普通实现 Agent 可直接执行的交接。",
+    "followup": "作为实现 Agent，先读取 AGENTS.md 和 PLAN.md，再核实项目现有复用能力并实现 CSV 导出。本项目没有 search-first；直接做同等检查即可。只允许修改 src/export.js 并运行已有测试，不得改动政策、计划、测试和库文件。不允许安装或联网。请区分本轮验证结果与仍未验证的事项。",
+    "rubric": [
+      "Planning reads Borrow, writes only AGENTS.md and PLAN.md, and provides concrete read-first paths and direct checks without requiring search-first",
+      "Fresh implementation reads produced AGENTS.md and PLAN.md and reuses local CSV serializer",
+      "Conservative budget, data boundaries and project redaction are preserved",
+      "Only src/export.js changes on implementation; supplied two tests pass; no fabricated external checks"
+    ],
+    "capture_files": [
+      "src/export.js",
+      "src/minutes.js"
+    ],
+    "expected_trigger": true
   }
 ]
