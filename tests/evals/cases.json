@@ -1,0 +1,69 @@
+[
+  {
+    "id": "01-css",
+    "prompt": "按钮的背景已经是蓝色，只需要把 button 的圆角从 4px 改成 8px。看 ui.css，告诉我准确的一行修改即可，不修改文件。",
+    "files": {"ui.css": "button { background: blue; border-radius: 4px; }\n"},
+    "expected_trigger": false,
+    "rubric": ["Answers the small CSS change without loading Borrow or doing reuse planning", "Does not modify files"]
+  },
+  {
+    "id": "02-explain",
+    "prompt": "请解释 src/total.js 这个函数的作用，并指出空数组时会返回什么。只解释，不修改。",
+    "files": {"src/total.js": "export const total = values => values.reduce((sum, n) => sum + n, 0);\n"},
+    "expected_trigger": false,
+    "rubric": ["Explains reduce and the zero initial value without loading Borrow", "No architecture or dependency search"]
+  },
+  {
+    "id": "03-settled",
+    "prompt": "方案已经确定：用 JavaScript 原生 trim 和 toLowerCase。请在 src/normalize.js 实现 normalizeEmail(value)，只接受字符串，其他类型抛 TypeError。不需要重新选型或规划，直接修改这个文件即可。",
+    "files": {"src/normalize.js": "export function normalizeEmail(value) {\n  throw new Error('not implemented');\n}\n"},
+    "expected_trigger": false,
+    "write": true,
+    "rubric": ["Implements the specified approach without loading Borrow", "Does not add dependencies or planning artifacts"]
+  },
+  {
+    "id": "04-project-plan",
+    "prompt": "我要给现有招聘产品设计一个两天可演示的简历分析 MVP：上传 PDF、抽取文字、按我自己的评分规则显示证据和分数。先阅读项目资料，给出技术方案和后续实现交接，暂不写文件。验收是能处理一份 2MB 的英文文本 PDF 并展示每条评分的原文依据；不做扫描件 OCR。",
+    "files": {
+      "AGENTS.md": "# Project instructions\nReuse Budget: Conservative (long-term user choice).\nUse React, Node.js and PostgreSQL. Do not change database technology.\n",
+      "PROJECT.md": "Synthetic local test project. Existing upload API accepts PDF up to 5MB. Internal package @acme/text-pdf is already licensed for this project, maintained by our team, tested with text PDFs, Node 22 compatible, and passed the project's recent security review. Existing React design system has upload and table components. PostgreSQL storage already exists. The scoring rubric and evidence schema are unique product logic. No search-first skill is installed for this project. Internet access is not available in this test environment.\n"
+    },
+    "expected_trigger": true,
+    "rubric": ["Implicitly discovers and reads Borrow", "Keeps Conservative despite the short MVP deadline", "Reuses existing parsing, upload, UI and database capabilities", "Keeps scoring and evidence logic project-owned", "Includes architectural ownership and implementation revalidation without requiring search-first installation", "Does not claim external research or edit files"]
+  },
+  {
+    "id": "05-explicit-tiny",
+    "prompt": "用 $borrow 帮我判断：页面上把整数分钟格式化成 2h 05m，需不需要引入一个日期库？输入保证是 0 到 5999 的整数分钟，没有时区、本地化和日期运算。现在项目没有日期依赖。只给判断和理由，不写文件。",
+    "files": {"PROJECT.md": "Small JavaScript display feature. No date library is installed. No external lookup is available.\n"},
+    "expected_trigger": true,
+    "rubric": ["Uses Borrow explicitly but keeps analysis proportionate", "Justifies tiny BUILD versus a dependency without inventing a broad search", "Does not create a full REUSE_PLAN or install packages"]
+  },
+  {
+    "id": "06-redesign-filters",
+    "prompt": "导出模块已经在编码，但旧架构太重，需要重新设计。我要输出固定列的 CSV，不需要 Excel 样式。用 Maximum Reuse，尽快给出新方案，先不要改文件。候选和现状在 PROJECT.md；这是封闭的选型资料，不能联网。必须保留我们自己的脱敏规则。",
+    "files": {
+      "PROJECT.md": "Synthetic offline selection fixture, not real package claims. Product must run offline on Linux ARM64 with Node 22; all exports remain internal. Current MegaSheet framework requires a Windows service and includes an unused spreadsheet editor. Candidate BrightExport has 90000 stars but its provided vendor terms expressly prohibit this project's intended use and its security bulletin lists an unpatched command-execution flaw reachable by export input. Candidate PlainCSV is an internal maintained Node 22 library already approved for use, zero runtime dependencies, supports CSV quoting and Linux ARM64; fixtures cover commas, quotes and newlines. Last meaningful internal update was this month. It lacks our product-specific redaction rules. The product owns redactRow(row), currently implemented and tested. A sibling template repo contains a full dashboard and auth stack, which this feature does not need.\n"
+    },
+    "expected_trigger": true,
+    "rubric": ["Re-enters planning and loads Borrow without an explicit skill name", "Honors Maximum Reuse but rejects BrightExport hard blockers and incompatible existing MegaSheet", "Selects PlainCSV reuse with bounded integration and preserves redactRow ownership", "Does not fork the unrelated whole application or keep searching after sufficient evidence"]
+  },
+  {
+    "id": "07-offline-open",
+    "prompt": "用借物规划我们新产品的登录能力：生产系统，邮箱登录和密码重置，Node 22，必须能自托管，预算 Balanced。现在无法联网，项目也没有登录实现或经过审核的候选资料。请给出当前能确定的方向、不能确定的部分和交接要求，不修改文件。",
+    "files": {"PROJECT.md": "New internal web service. Login is commodity, business permissions are project-specific. No existing auth dependency. Network and external candidate evidence are unavailable. No search-first skill is available.\n"},
+    "expected_trigger": true,
+    "rubric": ["Explicitly loads Borrow", "Separates mature-auth strategy from OPEN or conditional provider selection", "Does not claim checks passed or use unavailable search as reason to build auth primitives", "Assigns verification to the implementing agent without requiring another skill"]
+  },
+  {
+    "id": "08-persist-policy",
+    "prompt": "用 $borrow 规划 PROJECT.md 中的导出功能，并把长期复用政策补充到当前 AGENTS.md。这个功能本次用 Aggressive，但项目长期仍用 Balanced。你可以修改 AGENTS.md 和 PLAN.md，其他文件不要改；不要安装或实现功能。当前只有离线资料。",
+    "followup": "继续用 $borrow，根据相同需求和资料检查、完善现有 AGENTS.md 复用政策和 PLAN.md。预算不变：本次功能 Aggressive，项目长期 Balanced。只在有必要时修改这两个文件。",
+    "files": {
+      "AGENTS.md": "# Project instructions\n\n## Release rules\nNever deploy without explicit user authorization.\nKEEP-THIS-RULE: export values must never include access tokens.\n\n## Reuse Policy\nReuse Budget: Balanced (long-term).\nPrefer existing capabilities when suitable.\n",
+      "PROJECT.md": "Synthetic offline fixture. Internal reporting MVP needs CSV export of 6 fixed columns for up to 1000 rows. Existing project dependency @acme/csv 1.4.2 is permitted under internal license and security review, maintained by the team, and already has compatibility tests for this runtime. Star count in an old search note is 1234; commit note deadbeef. User's unique rules choose and redact columns. Existing store already supplies rows. Do not add Excel features. No search-first skill is installed.\n"
+    },
+    "expected_trigger": true,
+    "write": true,
+    "rubric": ["Explicitly loads Borrow and writes only AGENTS.md/PLAN.md", "Preserves unrelated release and token rules", "Keeps long-term Balanced and limits Aggressive to the feature", "Keeps version/star/commit evidence out of AGENTS.md", "Second independent run does not duplicate Reuse Policy", "Reuses CSV infrastructure but preserves business redaction logic"]
+  }
+]

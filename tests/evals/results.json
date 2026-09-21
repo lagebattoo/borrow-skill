@@ -1,0 +1,342 @@
+{
+  "date": "2026-09-21",
+  "baseline_commit": "2e528ff618ecf20584298d87ce40f11c67ac37bd",
+  "cli_version": "0.155.0-alpha.9.2",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "method": "Native repository skill discovery in independent CLI sessions; synthetic offline fixtures; rubrics hidden from tested agent; semantic review by primary agent plus artifact checks.",
+  "excluded_attempt": "Initial 01-css pilot lacked the existing Windows elevated sandbox setting and could not read the fixture. It was excluded and rerun after restoring the existing setting for the invocation.",
+  "skill_sha256": {
+    "borrow/SKILL.md": "91665dbde1b4febdb3520c79ceb33ca51fe28aca39dc663f3052cc32740a63f2",
+    "borrow/agents/openai.yaml": "23ef75b80b7c76cd3609e493559aa82b4977efacb51ab80ae0939f3c5c86ea8c",
+    "borrow/references/decision-rules.md": "9d796b74981f5a3ccac5d9ac12f3f71f3c9a6ad937e57926cd977b43003cda15",
+    "borrow/references/handoff-policy.md": "e9838f45a48e986c553f42ea0e1fbd3823a2d62ccd5f9b27b5d1bf1fd9c5381b",
+    "borrow/references/reuse-budget.md": "2ce239a4fd279522b427debfe686ee614083c09137f54a708a772bb3f9affae0",
+    "borrow/references/source-routing.md": "88272a8d4ce67165289df13c4ed70f11da522111da27c9ef86c2ed2c148fb446",
+    "borrow/templates/agents-reuse-policy.md": "7ccebe875410a93d1ec08ae5835f2ddd693c4c17350f2e35ac30471fa2829713",
+    "borrow/templates/reuse-plan.md": "acef05d96ab7a2f3472ac53a9d696f6f86d21f14f229602769b1966f3de451b5"
+  },
+  "cases": [
+    {
+      "id": "01-css",
+      "expected_trigger": false,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Answers the small CSS change without loading Borrow or doing reuse planning",
+        "Does not modify files"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2ba-d6f8-7cb2-9f0c-0af8c544df30",
+          "exit_code": 0,
+          "elapsed_seconds": 16.1,
+          "usage": {
+            "input_tokens": 38483,
+            "cached_input_tokens": 25088,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 189,
+            "reasoning_output_tokens": 0
+          },
+          "skill_loaded_from_tool_output": false,
+          "load_evidence": [],
+          "changed_files": [],
+          "events_sha256": "96b7ca3f2029613927ad8d4e769b0d403bcd115f9eee52fb2772f1b2b8ca58d0",
+          "response": "`ui.css` 第 1 行改为：\n\n```css\nbutton { background: blue; border-radius: 8px; }\n```\n\n未修改文件。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "02-explain",
+      "expected_trigger": false,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Explains reduce and the zero initial value without loading Borrow",
+        "No architecture or dependency search"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bb-40be-7fc3-8f00-fc462106fffd",
+          "exit_code": 0,
+          "elapsed_seconds": 20.8,
+          "usage": {
+            "input_tokens": 38475,
+            "cached_input_tokens": 25088,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 306,
+            "reasoning_output_tokens": 0
+          },
+          "skill_loaded_from_tool_output": false,
+          "load_evidence": [],
+          "changed_files": [],
+          "events_sha256": "c04ecdc3c1fbc023b1fa408dcdd95499915113a18f99413e824649a60b03f2bb",
+          "response": "[src/total.js](${CASE_WORKSPACE}/src/total.js:1) 的 `total` 函数使用 `reduce`，从初始值 `0` 开始，依次将数组元素相加。对于数字数组，它返回所有元素的总和，例如 `total([1, 2, 3])` 返回 `6`。\n\n**空数组 `total([])` 返回 `0`**：没有元素参与计算，`reduce` 直接返回初始值。\n\n解释完成，未修改文件。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "03-settled",
+      "expected_trigger": false,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Implements the specified approach without loading Borrow",
+        "Does not add dependencies or planning artifacts"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bb-9228-74c2-a0eb-9138bb532e64",
+          "exit_code": 0,
+          "elapsed_seconds": 39.6,
+          "usage": {
+            "input_tokens": 66714,
+            "cached_input_tokens": 39296,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 674,
+            "reasoning_output_tokens": 0
+          },
+          "skill_loaded_from_tool_output": false,
+          "load_evidence": [],
+          "changed_files": [
+            "src/normalize.js"
+          ],
+          "events_sha256": "c7be3a54a16850e8c5bbd3afdc67c69a0069e21c6fc21225c874ed19c467b6d8",
+          "response": "已完成，仅修改 [src/normalize.js](src/normalize.js)：\n\n- 字符串返回 `value.trim().toLowerCase()`。\n- 其他类型抛出 `TypeError`。\n\n已实际运行验证：5 个字符串用例、11 个非字符串用例全部通过。",
+          "artifacts": {
+            "src/normalize.js": "export function normalizeEmail(value) {\n  if (typeof value !== 'string') {\n    throw new TypeError('value must be a string');\n  }\n\n  return value.trim().toLowerCase();\n}\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "04-project-plan",
+      "expected_trigger": true,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Implicitly discovers and reads Borrow",
+        "Keeps Conservative despite the short MVP deadline",
+        "Reuses existing parsing, upload, UI and database capabilities",
+        "Keeps scoring and evidence logic project-owned",
+        "Includes architectural ownership and implementation revalidation without requiring search-first installation",
+        "Does not claim external research or edit files"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bb-40c2-7953-910f-98bb38f3d08c",
+          "exit_code": 0,
+          "elapsed_seconds": 129.6,
+          "usage": {
+            "input_tokens": 82237,
+            "cached_input_tokens": 44416,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 3276,
+            "reasoning_output_tokens": 645
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_2",
+              "command_exit_code": 0,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [],
+          "events_sha256": "da770e39c867e4a5ef420a17b98703c4ba63f8fc02575b31a15f7cd65fd4f264",
+          "response": "**建议：复用现有上传、PDF 解析、React 组件和 PostgreSQL，只新增评分与证据逻辑。** 按一名工程师、每天 8 小时规划，两天完成演示的前提是已有代码可用、评分规则及时确定。第 3/3 步完成：方案与实现交接如下；本次未写文件、未联网、未运行测试。\n\n1. **项目依据与复用决策**\n\n已阅读 [PROJECT.md](${CASE_WORKSPACE}/PROJECT.md)、[AGENTS.md](${CASE_WORKSPACE}/AGENTS.md)，并使用项目内 Borrow 技能。沿用 **Conservative** 复用预算，固定 React、Node.js、PostgreSQL。\n\n| 能力 | 分类 | 决策／复用类型 | 方向与理由 |\n|---|---|---|---|\n| PDF 上传 | 通用 | ADOPT／现有服务 | 已支持 5MB，覆盖 2MB 验收；沿用现有校验与访问控制 |\n| PDF 文字抽取 | 通用 | ADOPT／内部依赖 | 使用 `@acme/text-pdf`，避免自建解析器 |\n| 上传与结果界面 | 支撑 | ADAPT／现有组件 | 组合上传、表格组件，增加分数、状态和证据展开 |\n| 分析结果存储 | 通用 | ADAPT／既有基础设施 | 在 PostgreSQL 中增加分析记录，沿用项目数据库访问方式 |\n| 评分及证据关联 | 核心差异化 | BUILD／项目自有逻辑 | 规则和证据结构属于产品特色，需要独立版本管理与验证 |\n\n以上是依据项目资料确定的 **DECISION**。资料称内部解析包已获许可、由团队维护、支持 Node 22、经过文本 PDF 测试和近期安全审查；这些是文档证据，尚非本次集成验证。当前目录没有业务源码、依赖清单或样例 PDF，具体 API、依赖体积和定位能力仍待核实。\n\n2. **技术方案：让每个分数都能追溯**\n\n数据流为：\n\n`React 上传 → 现有上传 API → Node.js 抽取文字 → 执行规则 → 校验证据 → PostgreSQL 保存 → React 展示`\n\n上传服务负责文件接收；内部解析包负责文字抽取；新增的薄适配层把解析结果统一为 `rawText` 和可用的页码信息。评分规则、证据结构及总分计算由项目控制，不绑定解析包返回格式。\n\n建议的数据契约：\n\n```text\nAnalysis\n  id, documentId, rubricVersion, extractorVersion\n  status, rawText, pages?, results, totalScore?\n\nRuleResult\n  ruleId, ruleVersion, status, score?, maxScore, reason\n  evidence[]: { quote, start, end, page? }\n```\n\n`start/end` 统一采用 JavaScript 字符串索引，必须满足：\n\n```text\nrawText.slice(start, end) === quote\n```\n\n保存抽取原文作为不可变快照。匹配可以忽略大小写、调整空白，但证据必须映射回原文，不能直接引用改写后的文本。页码仅在解析包提供可靠映射时展示；不把页码支持假定为现成功能。\n\n界面每条规则显示“分数／满分、判断理由、原文依据”，展开后定位到抽取文本。未命中时显示“未找到符合条件的依据”，不能伪造引文；只有规则明确规定缺失即零分时才记零分，否则标为待核验，避免把未判定结果计入完整总分。\n\n**PREFERENCE：** 两天 MVP 优先采用确定性规则，不引入外部模型、向量库或新服务。评分规则暂存项目配置，不做规则编辑器。扫描件、加密文件和解析失败返回明确状态，不启动 OCR。单份分析先使用简单请求流程；第一天实测耗时后，若超过现有请求时限，再复用已有任务机制。\n\n3. **两天排期与验收**\n\n| 时间 | 工作与交付 |\n|---|---|\n| 第一天前 2 小时 | 核对真实代码、解析包接口及规则；用一份 2MB 英文文本 PDF 验证抽取效果、耗时与定位 |\n| 第一天后 6 小时 | 完成解析适配、版本化规则、证据校验、分析接口及 PostgreSQL 记录 |\n| 第二天前 4 小时 | 接入现有 React 组件，展示逐条分数、依据及失败状态 |\n| 第二天后 4 小时 | 完成端到端验收、修复问题、准备演示样例和操作说明 |\n\n主验收使用项目提供或合成的非私人 PDF：记录实际字节数，上传一份 2MB 英文文本 PDF，完成全部规则计算；人工对照预期分数，逐条核对引文确实来自该 PDF，同时用程序验证所有证据切片一致。\n\n补充验证覆盖未命中、重复词句、换行、多栏阅读顺序和非文本 PDF。失败不能显示为分析成功；重复分析同一文件、同一规则版本，应得到一致结果。**两天是实施估算，目前没有运行证据证明该流程已可用。**\n\n4. **后续实现交接与预计文件**\n\n以下为逻辑文件归属，路径是建议，需按真实仓库结构调整；本次实际修改文件为 **0**。\n\n| 预计文件／目录 | 实现责任 |\n|---|---|\n| `server/resume/pdf-adapter.*` | 封装内部解析包、保存原文、映射位置、区分失败类型 |\n| `server/resume/scoring.*`、`rubric.*` | 实现规则配置、版本、计分、证据及完整性校验 |\n| `server/resume/analysis.*`、现有迁移目录 | 接入上传结果、组织分析流程、保存和读取记录 |\n| `web/resume/ResumeAnalysis.*` | 复用设计系统，显示逐条分数及可定位证据 |\n| `tests/resume/` | 合成样例、规则预期结果、证据一致性和端到端验证 |\n\n实现者应保持已定技术栈与复用决策；优先直接核验本地代码、锁定版本、Node 兼容性、许可与安全记录及真实解析行为。项目没有 search-first 技能，这些检查直接由实现者承担，无需另装技能。\n\n**OPEN：** 用户评分规则的命中条件、权重、缺失处理和总分算法尚未提供，应在第一天开始评分实现前确定。若涉及“领导力”等语义判断，还需明确可接受的判定依据；示例规则只能用于接口演示，不能替代用户规则。\n\n若解析包不能提供页码，可先提供抽取文本中的位置；若连正确文本顺序或证据定位都无法保证，则需要明确调整设计和工期，不能以演示成功掩盖问题。后续实现仍须获得相应任务授权，当前交接不扩大本次只读范围。\n\n5. **建议补入 AGENTS.md 的长期政策——仅草案**\n\n保留现有预算和技术栈条款，建议追加：\n\n```markdown\n## Reuse Policy\n优先检查项目已有代码、依赖、组件与基础设施；成本相当时优先 ADOPT，其次 ADAPT，再考虑 BUILD。\n评分规则与证据结构由项目控制；解析、上传、存储等通用能力优先复用。\n复用决策不免除兼容性、许可、安全及实际集成验证；BUILD 必须说明理由。\n候选版本和临时结论留在设计方案中；外部检索和新增依赖须遵守当次授权。\n```\n\n下一步（约 2 分钟）：提供用于演示的评分规则，至少包含每条的命中条件、分值和未命中处理。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "05-explicit-tiny",
+      "expected_trigger": true,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Uses Borrow explicitly but keeps analysis proportionate",
+        "Justifies tiny BUILD versus a dependency without inventing a broad search",
+        "Does not create a full REUSE_PLAN or install packages"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bd-3b55-7c03-bf1a-30df80260f9d",
+          "exit_code": 0,
+          "elapsed_seconds": 18.9,
+          "usage": {
+            "input_tokens": 32248,
+            "cached_input_tokens": 13824,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 333,
+            "reasoning_output_tokens": 32
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_1",
+              "command_exit_code": 0,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [],
+          "events_sha256": "fc8a1df1c1fb15cbd73d32f9cfceeff7ba492b607a748704cbef07216b2ae896",
+          "response": "**不需要引入日期库。按 Borrow 判断：选择 BUILD，一个小型格式化函数即可。**\n\n- **需求简单且稳定**：只需整数除以 60 得到小时、取余得到分钟，再将分钟补齐两位；例如 125 → `2h 05m`。\n- **引库成本高于收益**：项目没有日期依赖，新增库会增加接入、升级和维护成本，却没有需要它处理的时区、本地化或日期运算。\n- **复用基础能力即可**：这是通用展示能力，复用语言内置的算术和字符串操作；ADOPT 日期库或 ADAPT 其接口都没有明显收益。\n\n小时应按累计值展示，5999 → `99h 59m`，无需按 24 小时回绕。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "06-redesign-filters",
+      "expected_trigger": true,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Re-enters planning and loads Borrow without an explicit skill name",
+        "Honors Maximum Reuse but rejects BrightExport hard blockers and incompatible existing MegaSheet",
+        "Selects PlainCSV reuse with bounded integration and preserves redactRow ownership",
+        "Does not fork the unrelated whole application or keep searching after sufficient evidence"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bc-2cfb-7700-9f01-e25cdbf631c6",
+          "exit_code": 0,
+          "elapsed_seconds": 61.8,
+          "usage": {
+            "input_tokens": 58231,
+            "cached_input_tokens": 39936,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1498,
+            "reasoning_output_tokens": 138
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_3",
+              "command_exit_code": 0,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [],
+          "events_sha256": "ac7edbbaba598a0db3a86865aa5cd8cb6409006b4ef2ad2fe28aa5716e7191b5",
+          "response": "建议改为 **PlainCSV + 现有 `redactRow(row)` + 薄导出适配层**，替换 MegaSheet。第 3/3 步完成：方案已收敛，未修改文件、未联网、未运行测试。\n\n以下判断仅依据当前项目 [PROJECT.md](PROJECT.md) 的封闭选型资料，不代表对真实同名产品的评价。Maximum Reuse 按你的要求用于本次导出重设计。\n\n1. **先按硬约束筛选**\n\n   | 候选 | 结论 | 依据 |\n   |---|---|---|\n   | MegaSheet | 替换 | 依赖 Windows 服务，无法满足 Linux ARM64；附带无用编辑器 |\n   | BrightExport | 排除 | 条款明确禁止本项目用途；导出输入可触发未修复的命令执行漏洞，9 万 stars 不改变结论 |\n   | PlainCSV | 首选 | 内部已批准，支持 Node 22、Linux ARM64，零运行时依赖，本月仍有实质维护，已有 CSV 转义 fixtures |\n   | 兄弟模板仓库 | 不引入 | dashboard 和认证栈超出需求，增加集成和维护成本；未访问该仓库 |\n\n2. **按能力复用，保留业务控制权**\n\n   | 能力 / 分类 | 决策 | 复用形式与归属 |\n   |---|---|---|\n   | CSV 序列化 / 通用 | ADOPT PlainCSV | 库复用；由库负责逗号、引号、换行的编码 |\n   | 脱敏 / 核心差异 | ADOPT 现有 `redactRow` | 内部代码复用；规则和测试继续由产品持有 |\n   | 固定列与调用编排 / 支撑 | ADAPT | 用薄适配层组合上述能力；项目拥有列名、顺序、字段映射和错误处理 |\n\n   不重写 CSV 编码器，不重新实现脱敏，也不 fork 库。相较保留框架或引入整套模板，这一组合减少部署依赖和升级负担；相较自写 CSV 编码，复用了已有边界处理与测试资产。\n\n3. **新架构与实施边界**\n\n   ```text\n   输入行 → 自有 redactRow → 按固定列取值并排序 → PlainCSV → 内部 CSV 输出\n   ```\n\n   固定列清单作为唯一 schema，明确表头、顺序及缺失值处理，禁止从输入对象动态推导列。脱敏失败时终止导出，不回退输出原始行；PlainCSV 只接收脱敏后的列值。\n\n   **已定（DECISION）：** 固定列 CSV、离线 Node 22 / Linux ARM64、内部输出、保留自有脱敏、移除 Windows 服务和编辑器依赖。  \n   **首选（PREFERENCE）：** PlainCSV；资料足以支持选型，但尚未检查实际 API、具体版本及完整安全信息。  \n   **待定（OPEN）：** 具体列定义、空值与日期格式、数据规模及输出接口，由实施者在接线前从现有需求和代码确认；资料未证明支持流式处理，不能预先依赖这一能力。\n\n   后续实施顺序为：确认 schema 和实际库接口 → 接入薄适配层 → 验证后移除 MegaSheet。预计涉及导出入口、固定列配置、依赖清单及锁文件、导出测试、部署配置；当前项目未提供这些实现文件，不能给出真实文件名。\n\n   验收应实际运行：固定列及顺序、额外字段不泄漏、逗号/引号/换行、现有脱敏回归、脱敏失败行为，以及目标平台离线导出。`PROJECT.md` 所述已有测试不等于本次已验证。\n\n4. **拟加入项目 AGENTS.md 的策略，暂不写入**\n\n   > 导出模块采用 Maximum Reuse：优先组合适用的内部能力；复用预算不得放宽用途条款、安全和平台要求。产品始终拥有脱敏规则与固定列契约，复用通用 CSV 编码能力。仅复用必要组件，避免引入无关框架。实施前核对本地 API、版本及集成行为；选型事实不等同于测试通过。\n\n实际修改文件：**无**。下一步只需确认固定列清单，即可进入实施接线。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "07-offline-open",
+      "expected_trigger": true,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Explicitly loads Borrow",
+        "Separates mature-auth strategy from OPEN or conditional provider selection",
+        "Does not claim checks passed or use unavailable search as reason to build auth primitives",
+        "Assigns verification to the implementing agent without requiring another skill"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bd-858d-74d3-8d91-8eaf25e55de2",
+          "exit_code": 0,
+          "elapsed_seconds": 66.8,
+          "usage": {
+            "input_tokens": 61515,
+            "cached_input_tokens": 43776,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1788,
+            "reasoning_output_tokens": 126
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_1",
+              "command_exit_code": 1,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [],
+          "events_sha256": "26c06a6a57392ccfba575e88c657797dbc4def11db5051d5d30d5627ea0fb6dd",
+          "response": "**第 3/3 步完成：可以确定“优先复用成熟、可自托管的认证能力”；具体组件与部署形态保持 OPEN，当前证据不足以批准任何候选进入生产。** 已使用当前项目的「借物」技能，只读取项目内资料；未联网、未修改文件、未运行测试。\n\n1. **已确定的约束与方向**\n\n   交付目标是生产系统，运行环境为 Node 22，覆盖邮箱登录和密码重置，必须支持自托管。Balanced 来自你的明确选择，表示平衡复用收益与长期维护成本，不降低安全、许可证或兼容性要求。\n\n   项目 `PROJECT.md` 确认：登录属于通用能力，业务权限属于项目特有逻辑；没有现成认证依赖，也没有可用的 search-first 技能。\n\n   **DECISION：采用成熟认证基础设施的复用策略。** 离线、缺少资料不能成为自研密码学、认证协议或重置令牌机制的理由，也不能证明不存在合适候选。\n\n2. **能力复用图**\n\n   下表的 ADOPT／ADAPT 是方向偏好，尚不是对具体候选的采用决定。\n\n   | 能力／分类 | 方向与强度 | 复用形式 | 所有权与架构影响 |\n   |---|---|---|---|\n   | 凭据校验、密码存储、会话／Commodity | ADOPT，PREFERENCE；候选 OPEN | 依赖或自托管服务 | 成熟组件承担认证机制；项目负责配置、接入与运行维护 |\n   | 密码重置／Commodity | ADOPT，PREFERENCE；候选 OPEN | 同一认证组件优先 | 优先复用完整重置流程，避免自行拼接令牌生命周期；项目控制页面和产品文案 |\n   | 邮件投递／Supporting | ADOPT＋必要的 ADAPT，PREFERENCE | 邮件基础设施、薄适配层 | 项目维护模板与投递配置；自托管范围、重试和失败处理待定 |\n   | 业务权限／Supporting、项目特有 | BUILD 规则层，DECISION；底层机制另评估 | 知识／模式复用 | 项目拥有角色、资源规则和权限判断；不因此自研底层安全机制 |\n\n   BUILD 权限规则的理由是业务语义必须由项目控制。认证组件确认身份后，应用仍须按项目规则判断操作权限。\n\n3. **不能确定的部分**\n\n   **PREFERENCE：先比较应用内认证库与独立自托管身份服务。** 前者通常减少独立服务运维，但会把认证接入和升级责任带入应用；后者可以集中管理身份，却增加部署、备份、升级和故障处理成本。Balanced 下要比较整个生命周期成本，目前不能选定其中一种。\n\n   以下均为 **OPEN**：\n\n   | 未决项 | 缺失信息 | 负责人／解决时点 |\n   |---|---|---|\n   | 登录方式与账户来源 | 暂按“邮箱＋密码”理解；是否需要验证码、魔法链接、注册或邀请尚未明确 | 产品负责人／候选筛选前 |\n   | 自托管边界 | 是否要求身份、数据库、邮件投递全部自托管；是否允许外部 SMTP | 产品与运维负责人／架构定型前 |\n   | 接入与部署形态 | Web 框架、数据库、单域或跨域部署、可用性与恢复要求 | 实施者与运维负责人／方案定型前 |\n   | 候选是否合格 | 许可证、维护状况、安全公告、Node 22 兼容性、完整自托管能力及依赖负担 | 实施者／采用决定前 |\n\n   **没有经过审核的候选资料，因此不能给出“已通过安全检查”“支持 Node 22”或“可生产使用”的候选结论。**\n\n4. **交接要求与验收门槛**\n\n   后续实施者直接承担验证，不要求安装 search-first。本次交接不授权联网、安装、实现或部署；相关动作须在后续允许的范围内开展。\n\n   验证应形成三份可审查结果：**候选证据表、架构决定、集成验证记录**。证据表必须注明来源、版本、观察日期及未验证项，覆盖许可证、自托管条件、维护与安全状态、实际部署平台及 Node 22 兼容性。架构决定须说明数据归属、凭据与会话由谁管理、升级备份责任和替换成本。\n\n   生产验收至少覆盖：正确与错误凭据处理；登录和重置请求限流及账户枚举防护；重置令牌过期、单次使用和并发重放；重置后的旧密码失效与既有会话处理；邮件故障、敏感信息日志保护和备份恢复。既有会话是否全部撤销，应先形成明确策略。\n\n   **文档支持、实际集成通过、仍未验证必须分开记录。** 若候选不能通过关键硬性条件，就重新比较候选或架构，不把未知项默认为通过，也不静默改变 Node 22 或自托管约束。\n\n5. **供以后写入项目 AGENTS.md 的提案——本次未落盘**\n\n   > 登录能力采用 Balanced 复用预算，优先采用成熟且可自托管的认证基础设施；业务权限规则由项目控制。不自行实现密码学或认证安全原语。具体候选采用前，必须验证需求匹配、许可证、安全与维护状况、Node 22 兼容性和部署可行性，并完成针对性集成验证。缺少关键证据时保留 OPEN 或条件性 PREFERENCE。比较总维护成本，成本相当时优先 ADOPT，其次 ADAPT；BUILD 必须记录理由。候选和版本信息保留在设计记录中，不写成长效规则。\n\n   该预算提案只覆盖本次登录能力，不自动扩展为整个项目的长期预算。",
+          "artifacts": {}
+        }
+      ]
+    },
+    {
+      "id": "08-persist-policy",
+      "expected_trigger": true,
+      "reviewer_verdict": "PASS",
+      "rubric": [
+        "Explicitly loads Borrow and writes only AGENTS.md/PLAN.md",
+        "Preserves unrelated release and token rules",
+        "Keeps long-term Balanced and limits Aggressive to the feature",
+        "Keeps version/star/commit evidence out of AGENTS.md",
+        "Second independent run does not duplicate Reuse Policy",
+        "Reuses CSV infrastructure but preserves business redaction logic"
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "thread_id": "01a0c2bd-1e86-7b73-a927-dc1a6a39d3d8",
+          "exit_code": 0,
+          "elapsed_seconds": 153.5,
+          "usage": {
+            "input_tokens": 118125,
+            "cached_input_tokens": 93312,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 4191,
+            "reasoning_output_tokens": 189
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_2",
+              "command_exit_code": 0,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [
+            "AGENTS.md",
+            "PLAN.md"
+          ],
+          "events_sha256": "c3964ed78878454f7b8ed472a072ecb37c1830ddc4966e900de909924b8120bc",
+          "response": "第 3/3 步完成，仅修改两个文件：\n\n1. [PLAN.md](PLAN.md)：按本次 **Aggressive** 规划，复用现有 store 和 CSV 依赖，项目掌控选列与脱敏规则；包含验收标准、待定项和实施交接。\n2. [AGENTS.md](AGENTS.md)：补充长期复用政策，保持 **Balanced**，原有发布规则和禁止导出 access token 的规则完整保留。\n\n已核对文件指纹和文档规则，修改范围符合授权。未联网、安装或实现功能；未运行产品测试。",
+          "artifacts": {
+            "AGENTS.md": "# Project instructions\n\n## Release rules\nNever deploy without explicit user authorization.\nKEEP-THIS-RULE: export values must never include access tokens.\n\n## Reuse Policy\nReuse Budget: Balanced (long-term).\nPrefer existing capabilities when suitable.\n\n以下为长期 POLICY：\n\n1. 单次功能的预算覆盖仅记录在对应计划中，不改变项目长期预算。预算不豁免需求正确性、许可、安全或平台兼容性要求；Maximum Reuse 必须由用户主动选择。\n2. 先确认需求，再检查项目已有代码、依赖、服务、基础设施及相关 Skills/MCP。按独立能力比较 ADOPT、ADAPT、BUILD；总拥有成本相当时优先 ADOPT，其次 ADAPT，再 BUILD。BUILD 必须说明理由，并计入集成、测试、调试、升级、维护、安全、许可与替换成本。\n3. 通用能力优先复用；差异化业务规则、数据契约与决策权由项目掌控，其底层基础设施仍可复用。只借用所需能力，优先组合或有界适配，不默认引入整套项目或 fork。\n4. 在授权范围内按资源类型选择权威来源：依赖查内部资料、官方文档及对应注册表，模式查成熟实现，代理能力先查已有 Skills/MCP。已有充分证据支持适配性、硬性约束及成本判断时停止扩展搜索。离线或证据不足时明确 PREFERENCE 的条件或保留 OPEN，不以无法搜索作为 BUILD 或审查通过的理由。\n5. 在计划中区分 POLICY、DECISION、PREFERENCE、OPEN；候选、版本及带日期的证据留在计划。实施者负责复核实际代码、API、兼容性、维护状态、许可与安全，并运行适当的集成验证；有 search-first 时可使用，没有时直接承担检查，不要求安装技能。规划建议不授权安装、采购、实现、部署或扩大访问范围。\n",
+            "PLAN.md": "# CSV 导出复用计划\n\n## 需求与边界\n\n- 目标：内部报表 MVP 导出 CSV，固定 6 列，最多 1000 行；数据来自现有 store，不增加 Excel 功能。\n- 差异化：用户特有的选列与脱敏规则。导出值绝不能包含 access token；CSV 转义不能代替脱敏。\n- 本次预算：**Aggressive（仅此功能）**，来自当前用户指令；项目长期 **Balanced**，保留在 AGENTS.md。优先借用成熟现有能力，预算不降低正确性或安全要求。\n- 当前仅交付规划和长期政策；只允许修改 AGENTS.md、PLAN.md，不安装、不实现、不联网、不访问账号、私人文件或其他项目。\n- 技术栈具体版本、运行平台、交付期限、列名及规则细节未提供。无需为规划假设新框架、服务、存储或部署方式；影响实施的缺口见 OPEN。\n\n## 离线证据与内部盘点\n\n2026-09-21 读取当前项目 PROJECT.md、AGENTS.md，以及本地 borrow 技能及参考资料；文件清单未发现实现代码、依赖清单、锁文件或测试文件。以下是项目文档提供的事实，不是本次独立审查或集成测试结果：\n\n| 已有能力或资料 | 文档证据 | 证据边界 |\n| --- | --- | --- |\n| @acme/csv 1.4.2 | 已有项目依赖，内部许可和安全审查允许使用，由团队维护，已有本运行时兼容性测试 | 未读取包源码、API 文档、审查记录或测试产物；依赖体积、具体 CSV 行为和最新维护状态仍需实施复核 |\n| 现有 store | 已能提供行数据 | 接口、权限、顺序、边界及错误行为未见实现 |\n| 用户专有选列与脱敏规则 | 明确属于用户差异化逻辑 | 未提供六列定义及脱敏规则明细 |\n| 相关技能 | 当前项目提供 borrow；PROJECT.md 明确没有 search-first | 本次使用 borrow；后续检查直接交给实施者，无需安装技能 |\n\nPROJECT.md 中旧搜索笔记的星数与 commit 注记不构成选型依据，不写入长期政策。本次未进行任何外部发现；现有依赖的项目证据已支持当前设计方向，无需为 Aggressive 增加候选数量。证据缺口保留在实施检查中，不宣称已验证外部候选或“没有其他方案”。\n\n## Capability Reuse Map\n\n决策强度与复用动作分别标注：POLICY 是长期规则；DECISION 是当前确定设计；PREFERENCE 是可随证据调整的方向；OPEN 是待解决事项。\n\n| 能力 | 分类 | 动作 / 复用类型 | 方向与强度 | 理由、所有权及架构影响 | 交接检查 |\n| --- | --- | --- | --- | --- | --- |\n| 获取待导出行 | Supporting | ADOPT / Code-project（项目内代码复用） | DECISION：复用现有 store | 已具备供数能力，另建数据管道增加同步和维护成本。store 继续负责读取；项目控制导出范围与行数限制，不新增存储 | 核实真实接口、既有读取权限、排序、1000 行边界与失败路径 |\n| CSV 序列化 | Commodity | ADOPT / Dependency | DECISION：采用已有 @acme/csv；当前文档版本为 1.4.2 | 给定许可、安全及兼容性证据支持复用。库负责 CSV 格式正确性，项目传入已处理的六列值；不 fork、不自写 CSV 编码器、不引入 Excel 套件 | 核实实际版本/API、转义与编码行为、审查适用范围、维护情况，并运行实际集成用例 |\n| 六列投影与脱敏 | Core Differentiation | BUILD / Knowledge-pattern（白名单投影模式） | DECISION：规则由项目实现和掌控 | 通用序列化库无法决定专有规则；仅实现窄范围规则层，不重建编码能力。先按固定 schema 选列并脱敏，再交给 CSV 库；不得将原始整行直接交给序列化层 | 确定六列名称、顺序和脱敏规则；确认输出所有值都不含 access token，包括允许列内嵌的 token |\n| 导出编排与交付 | Supporting | ADAPT / Knowledge-pattern（薄层组合） | PREFERENCE：薄层串联既有 store、规则层和序列化器，复用应用已有输出通道（若存在） | 项目负责行数检查、错误反馈、文件名及触发流程；无需通用导出平台。尚无实际交付通道的代码证据，不假定浏览器或服务端架构 | 实施前查明当前下载/响应约定；输出通道选择为 OPEN |\n\n所有权成本比较：ADOPT 现有库可沿用团队维护和兼容性基础，只增加调用与集成验证；ADAPT/fork 编码器会增加上游升级负担，当前没有必要；BUILD 编码器会接管 CSV 边界正确性和持续维护，不采用。对专有选列与脱敏规则，外部方案仍需项目配置和验证，直接掌控小范围规则层更适合；不因离线而断言不存在可复用的规则实现，实施前仍先检查本地已有逻辑。\n\n## 数据流与验收标准\n\n数据流：既有导出入口 → store 获取允许导出的行 → 行数边界检查 → 固定六列投影和脱敏 → @acme/csv 序列化 → 既有输出通道。\n\n库只接收处理后的导出值。schema、脱敏规则和导出策略留在项目内；库替换仅影响序列化调用边界，不应改变业务规则。不预设后台任务、流式系统或新增服务；最多 1000 行是否适合现有同步路径，由实施者结合单行大小和运行环境确认。\n\n以下为将来实施的可观察验收标准，本次未执行：\n\n1. 0、1、1000 行输入均能生成符合约定的 CSV；每行固定 6 列、顺序稳定。空数据暂按仅输出表头规划；超过 1000 行暂按明确拒绝规划，不静默截断，策略待实施前确认。\n2. 中文、逗号、双引号、换行和空值按确定的 CSV 契约输出，用已知期望或独立读取方式检查，避免只测同库自编码解码。\n3. 选列和脱敏结果符合批准的规则；用合成 access token 检查原始额外字段及允许列中的嵌入值，最终 CSV 不得包含这些 token。序列化转义不是泄露防护。\n4. 若应用读取权限适用，导出沿用既有范围；数据读取或序列化失败时有明确错误，不交付误标为成功的不完整文件。\n5. 不增加 Excel 专有功能、依赖、服务或存储；使用现有运行环境验证 1000 行样例可完成，时延和内存阈值在运行环境明确后约定，不凭行数宣称性能已通过。\n\n## OPEN 与实施交接\n\n| 待定事项 | 负责人及解决时机 | 当前方向 / 所需证据 |\n| --- | --- | --- |\n| 六列名称、顺序、值格式及脱敏规则 | 实施者与需求负责人，编写规则层前 | 从实际项目 schema 和业务规则确认；不臆造列名。明确 token 识别来源和处理方式；无法安全处理时不输出原值 |\n| CSV 消费方式与格式契约 | 实施者与需求负责人，确定序列化参数前 | 明确分隔符、编码/BOM、换行、空值、文件名及公式样式值的处理。若面向表格软件，确认公式注入防护；不据此扩展 Excel 功能 |\n| 空数据、超限和输出通道 | 实施者，接入导出入口前；需求语义由负责人确认 | 验证表头-only、超限拒绝的暂定方向，检查 store 限制及现有下载或响应能力 |\n| 依赖实际状态与集成行为 | 实施者，实施开始及交付前 | 查本地实现、清单/锁文件、官方或内部 API 资料及审查记录；复核许可、安全、维护、兼容性和依赖成本。当前不联网；若仍缺关键证据，标记未验证并保持相应选择 OPEN，不扩大访问范围 |\n\n固定项：需求范围、禁止 token 导出、项目长期 Balanced、本次 Aggressive，以及复用供数/序列化、掌控专有规则的设计。可调整项：薄层编排的具体接口及暂定输出策略；若发现 API 不满足需求、兼容性失败或硬性约束不再满足，记录证据后显式修订对应 DECISION，优先比较有界 ADAPT 与替换候选，不直接转向整套框架。\n\n没有 search-first，以上检查直接由后续实施者承担。本次交付仅核对文档内容和修改范围；未安装依赖、执行产品测试或实现导出。后续实现需要另行任务授权，部署仍必须获得明确用户授权。\n"
+          }
+        },
+        {
+          "run": 2,
+          "thread_id": "01a0c2bf-7629-7c70-9fdb-b39320fb85ad",
+          "exit_code": 0,
+          "elapsed_seconds": 47.2,
+          "usage": {
+            "input_tokens": 75543,
+            "cached_input_tokens": 51584,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1072,
+            "reasoning_output_tokens": 102
+          },
+          "skill_loaded_from_tool_output": true,
+          "load_evidence": [
+            {
+              "event_item_id": "item_2",
+              "command_exit_code": 0,
+              "evidence": "Tool output contains the actual Borrow frontmatter and body."
+            }
+          ],
+          "changed_files": [],
+          "events_sha256": "b3dfcafca91ce19ec89d8683e3a67007617944f96bcdd86fedc73034a48b77e7",
+          "response": "第 3/3 步完成：按 borrow 复核后，**无需修改，实际修改文件为 0**。\n\n- `AGENTS.md`：长期 **Balanced**，部署授权与禁止导出 token 的规则完整保留。\n- `PLAN.md`：本次 **Aggressive**；复用决策、证据边界、待定事项及实施验证要求已覆盖。\n- 已运行 10 项文档一致性检查，全部通过；未运行产品测试。\n\n全程仅读取当前临时项目，未访问外网、账号、私人文件或其他项目。",
+          "artifacts": {
+            "AGENTS.md": "# Project instructions\n\n## Release rules\nNever deploy without explicit user authorization.\nKEEP-THIS-RULE: export values must never include access tokens.\n\n## Reuse Policy\nReuse Budget: Balanced (long-term).\nPrefer existing capabilities when suitable.\n\n以下为长期 POLICY：\n\n1. 单次功能的预算覆盖仅记录在对应计划中，不改变项目长期预算。预算不豁免需求正确性、许可、安全或平台兼容性要求；Maximum Reuse 必须由用户主动选择。\n2. 先确认需求，再检查项目已有代码、依赖、服务、基础设施及相关 Skills/MCP。按独立能力比较 ADOPT、ADAPT、BUILD；总拥有成本相当时优先 ADOPT，其次 ADAPT，再 BUILD。BUILD 必须说明理由，并计入集成、测试、调试、升级、维护、安全、许可与替换成本。\n3. 通用能力优先复用；差异化业务规则、数据契约与决策权由项目掌控，其底层基础设施仍可复用。只借用所需能力，优先组合或有界适配，不默认引入整套项目或 fork。\n4. 在授权范围内按资源类型选择权威来源：依赖查内部资料、官方文档及对应注册表，模式查成熟实现，代理能力先查已有 Skills/MCP。已有充分证据支持适配性、硬性约束及成本判断时停止扩展搜索。离线或证据不足时明确 PREFERENCE 的条件或保留 OPEN，不以无法搜索作为 BUILD 或审查通过的理由。\n5. 在计划中区分 POLICY、DECISION、PREFERENCE、OPEN；候选、版本及带日期的证据留在计划。实施者负责复核实际代码、API、兼容性、维护状态、许可与安全，并运行适当的集成验证；有 search-first 时可使用，没有时直接承担检查，不要求安装技能。规划建议不授权安装、采购、实现、部署或扩大访问范围。\n",
+            "PLAN.md": "# CSV 导出复用计划\n\n## 需求与边界\n\n- 目标：内部报表 MVP 导出 CSV，固定 6 列，最多 1000 行；数据来自现有 store，不增加 Excel 功能。\n- 差异化：用户特有的选列与脱敏规则。导出值绝不能包含 access token；CSV 转义不能代替脱敏。\n- 本次预算：**Aggressive（仅此功能）**，来自当前用户指令；项目长期 **Balanced**，保留在 AGENTS.md。优先借用成熟现有能力，预算不降低正确性或安全要求。\n- 当前仅交付规划和长期政策；只允许修改 AGENTS.md、PLAN.md，不安装、不实现、不联网、不访问账号、私人文件或其他项目。\n- 技术栈具体版本、运行平台、交付期限、列名及规则细节未提供。无需为规划假设新框架、服务、存储或部署方式；影响实施的缺口见 OPEN。\n\n## 离线证据与内部盘点\n\n2026-09-21 读取当前项目 PROJECT.md、AGENTS.md，以及本地 borrow 技能及参考资料；文件清单未发现实现代码、依赖清单、锁文件或测试文件。以下是项目文档提供的事实，不是本次独立审查或集成测试结果：\n\n| 已有能力或资料 | 文档证据 | 证据边界 |\n| --- | --- | --- |\n| @acme/csv 1.4.2 | 已有项目依赖，内部许可和安全审查允许使用，由团队维护，已有本运行时兼容性测试 | 未读取包源码、API 文档、审查记录或测试产物；依赖体积、具体 CSV 行为和最新维护状态仍需实施复核 |\n| 现有 store | 已能提供行数据 | 接口、权限、顺序、边界及错误行为未见实现 |\n| 用户专有选列与脱敏规则 | 明确属于用户差异化逻辑 | 未提供六列定义及脱敏规则明细 |\n| 相关技能 | 当前项目提供 borrow；PROJECT.md 明确没有 search-first | 本次使用 borrow；后续检查直接交给实施者，无需安装技能 |\n\nPROJECT.md 中旧搜索笔记的星数与 commit 注记不构成选型依据，不写入长期政策。本次未进行任何外部发现；现有依赖的项目证据已支持当前设计方向，无需为 Aggressive 增加候选数量。证据缺口保留在实施检查中，不宣称已验证外部候选或“没有其他方案”。\n\n## Capability Reuse Map\n\n决策强度与复用动作分别标注：POLICY 是长期规则；DECISION 是当前确定设计；PREFERENCE 是可随证据调整的方向；OPEN 是待解决事项。\n\n| 能力 | 分类 | 动作 / 复用类型 | 方向与强度 | 理由、所有权及架构影响 | 交接检查 |\n| --- | --- | --- | --- | --- | --- |\n| 获取待导出行 | Supporting | ADOPT / Code-project（项目内代码复用） | DECISION：复用现有 store | 已具备供数能力，另建数据管道增加同步和维护成本。store 继续负责读取；项目控制导出范围与行数限制，不新增存储 | 核实真实接口、既有读取权限、排序、1000 行边界与失败路径 |\n| CSV 序列化 | Commodity | ADOPT / Dependency | DECISION：采用已有 @acme/csv；当前文档版本为 1.4.2 | 给定许可、安全及兼容性证据支持复用。库负责 CSV 格式正确性，项目传入已处理的六列值；不 fork、不自写 CSV 编码器、不引入 Excel 套件 | 核实实际版本/API、转义与编码行为、审查适用范围、维护情况，并运行实际集成用例 |\n| 六列投影与脱敏 | Core Differentiation | BUILD / Knowledge-pattern（白名单投影模式） | DECISION：规则由项目实现和掌控 | 通用序列化库无法决定专有规则；仅实现窄范围规则层，不重建编码能力。先按固定 schema 选列并脱敏，再交给 CSV 库；不得将原始整行直接交给序列化层 | 确定六列名称、顺序和脱敏规则；确认输出所有值都不含 access token，包括允许列内嵌的 token |\n| 导出编排与交付 | Supporting | ADAPT / Knowledge-pattern（薄层组合） | PREFERENCE：薄层串联既有 store、规则层和序列化器，复用应用已有输出通道（若存在） | 项目负责行数检查、错误反馈、文件名及触发流程；无需通用导出平台。尚无实际交付通道的代码证据，不假定浏览器或服务端架构 | 实施前查明当前下载/响应约定；输出通道选择为 OPEN |\n\n所有权成本比较：ADOPT 现有库可沿用团队维护和兼容性基础，只增加调用与集成验证；ADAPT/fork 编码器会增加上游升级负担，当前没有必要；BUILD 编码器会接管 CSV 边界正确性和持续维护，不采用。对专有选列与脱敏规则，外部方案仍需项目配置和验证，直接掌控小范围规则层更适合；不因离线而断言不存在可复用的规则实现，实施前仍先检查本地已有逻辑。\n\n## 数据流与验收标准\n\n数据流：既有导出入口 → store 获取允许导出的行 → 行数边界检查 → 固定六列投影和脱敏 → @acme/csv 序列化 → 既有输出通道。\n\n库只接收处理后的导出值。schema、脱敏规则和导出策略留在项目内；库替换仅影响序列化调用边界，不应改变业务规则。不预设后台任务、流式系统或新增服务；最多 1000 行是否适合现有同步路径，由实施者结合单行大小和运行环境确认。\n\n以下为将来实施的可观察验收标准，本次未执行：\n\n1. 0、1、1000 行输入均能生成符合约定的 CSV；每行固定 6 列、顺序稳定。空数据暂按仅输出表头规划；超过 1000 行暂按明确拒绝规划，不静默截断，策略待实施前确认。\n2. 中文、逗号、双引号、换行和空值按确定的 CSV 契约输出，用已知期望或独立读取方式检查，避免只测同库自编码解码。\n3. 选列和脱敏结果符合批准的规则；用合成 access token 检查原始额外字段及允许列中的嵌入值，最终 CSV 不得包含这些 token。序列化转义不是泄露防护。\n4. 若应用读取权限适用，导出沿用既有范围；数据读取或序列化失败时有明确错误，不交付误标为成功的不完整文件。\n5. 不增加 Excel 专有功能、依赖、服务或存储；使用现有运行环境验证 1000 行样例可完成，时延和内存阈值在运行环境明确后约定，不凭行数宣称性能已通过。\n\n## OPEN 与实施交接\n\n| 待定事项 | 负责人及解决时机 | 当前方向 / 所需证据 |\n| --- | --- | --- |\n| 六列名称、顺序、值格式及脱敏规则 | 实施者与需求负责人，编写规则层前 | 从实际项目 schema 和业务规则确认；不臆造列名。明确 token 识别来源和处理方式；无法安全处理时不输出原值 |\n| CSV 消费方式与格式契约 | 实施者与需求负责人，确定序列化参数前 | 明确分隔符、编码/BOM、换行、空值、文件名及公式样式值的处理。若面向表格软件，确认公式注入防护；不据此扩展 Excel 功能 |\n| 空数据、超限和输出通道 | 实施者，接入导出入口前；需求语义由负责人确认 | 验证表头-only、超限拒绝的暂定方向，检查 store 限制及现有下载或响应能力 |\n| 依赖实际状态与集成行为 | 实施者，实施开始及交付前 | 查本地实现、清单/锁文件、官方或内部 API 资料及审查记录；复核许可、安全、维护、兼容性和依赖成本。当前不联网；若仍缺关键证据，标记未验证并保持相应选择 OPEN，不扩大访问范围 |\n\n固定项：需求范围、禁止 token 导出、项目长期 Balanced、本次 Aggressive，以及复用供数/序列化、掌控专有规则的设计。可调整项：薄层编排的具体接口及暂定输出策略；若发现 API 不满足需求、兼容性失败或硬性约束不再满足，记录证据后显式修订对应 DECISION，优先比较有界 ADAPT 与替换候选，不直接转向整套框架。\n\n没有 search-first，以上检查直接由后续实施者承担。本次交付仅核对文档内容和修改范围；未安装依赖、执行产品测试或实现导出。后续实现需要另行任务授权，部署仍必须获得明确用户授权。\n"
+          }
+        }
+      ]
+    }
+  ]
+}
